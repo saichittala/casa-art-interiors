@@ -4,13 +4,13 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ReelScale",
-    short_name: "ReelScale",
-    description: "High-retention reels that grow your brand and bring you clients.",
+    name: "Casa Art Interiors",
+    short_name: "Casa Art",
+    description: "Luxury Interior Design Studio & In-House Modular Manufacturing Facility Hyderabad.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0f0f0f",
-    theme_color: "#ff0025",
+    background_color: "#FFFFFF",
+    theme_color: "#B85C3A",
     icons: [
       {
         src: "/assets/favicon.png",

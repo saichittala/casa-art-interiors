@@ -1,8 +1,17 @@
-import { Geist as GeistFont } from 'next/font/google';
+import { Lora, Inter } from 'next/font/google';
 
-export const Geist = GeistFont({
+export const lora = Lora({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-geist',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-lora',
   display: 'swap',
 });
+
+export const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
