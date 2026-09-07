@@ -922,7 +922,7 @@ textarea:disabled,
   right: 0;
   z-index: 1000;
   width: 100%;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .top-announcement-bar {

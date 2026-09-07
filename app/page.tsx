@@ -8,6 +8,7 @@ import ConsultationModal from "./components/ConsultationModal";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import BeforeAfterSlider from "./components/BeforeAfterSlider";
 import FaqAccordion from "./components/FaqAccordion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FactoryIcon,
   MapPinIcon,
@@ -40,10 +41,75 @@ import {
   ChevronRightIcon
 } from "./components/Icons";
 
+const heroSlides = [
+  {
+    id: 0,
+    image: "/assets/casa-art/hero-living.jpg",
+    title: "Your Home.",
+    accent: "Beautifully Designed.",
+    alt: "Magna Solitaire Luxury Residence - Living Room Design"
+  },
+  {
+    id: 1,
+    image: "/assets/casa-art/bedroom-suite.jpg",
+    title: "Bespoke Comfort.",
+    accent: "Crafted for Rest.",
+    alt: "Luxury Master Bedroom Suite - Casa Art Interior Design"
+  },
+  {
+    id: 2,
+    image: "/assets/casa-art/modular-kitchen.jpg",
+    title: "Precision Engineering.",
+    accent: "Culinary Elegance.",
+    alt: "German Engineered Modular Kitchen Architecture"
+  }
+];
+
+const heroSlideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? "3%" : "-3%",
+    opacity: 0,
+    scale: 1.04
+  }),
+  center: {
+    zIndex: 1,
+    x: "0%",
+    opacity: 1,
+    scale: 1
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? "3%" : "-3%",
+    opacity: 0,
+    scale: 0.97
+  })
+};
+
 export default function HomePage() {
   const [consultationOpen, setConsultationOpen] = useState(false);
   const [servicesScrollProgress, setServicesScrollProgress] = useState(25);
   const servicesSliderRef = useRef<HTMLDivElement>(null);
+
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [heroDirection, setHeroDirection] = useState(1);
+
+  const nextHeroSlide = () => {
+    setHeroDirection(1);
+    setHeroIndex((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevHeroSlide = () => {
+    setHeroDirection(-1);
+    setHeroIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroDirection(1);
+      setHeroIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [heroIndex]);
 
   const handleServicesScroll = () => {
     if (!servicesSliderRef.current) return;
@@ -232,40 +298,87 @@ export default function HomePage() {
             1. HERO SECTION (FULL-BLEED CINEMATIC SHOWCASE)
             ================================================================= */}
         <section className="hero-cinematic-section">
-          {/* Background Image Layer with Luxury Dark Vignette Gradient */}
-          <div className="hero-bg-layer">
-            <img
-              src="/assets/casa-art/hero-living.jpg"
-              alt="Magna Solitaire Luxury Residence - Casa Art Interior Design Hyderabad"
-              className="hero-bg-image"
-            />
-            <div className="hero-bg-overlay" />
+          {/* Background Image Layer with Framer Motion Slide Animation */}
+          <div className="hero-bg-layer" style={{ overflow: "hidden" }}>
+            <AnimatePresence initial={false} custom={heroDirection}>
+              <motion.div
+                key={heroIndex}
+                custom={heroDirection}
+                variants={heroSlideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  duration: 0.9,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+              >
+                <img
+                  src={heroSlides[heroIndex].image}
+                  alt={heroSlides[heroIndex].alt}
+                  className="hero-bg-image"
+                />
+                <div className="hero-bg-overlay" />
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <div className="container hero-cinematic-container">
             {/* Hero Main Content (Left-Aligned) */}
             <div className="hero-cinematic-content">
-              <h1 className="hero-cinematic-title">
-                Your Home.<br />
-                <span className="hero-title-accent">Beautifully Designed.</span>
-              </h1>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroIndex}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <h1 className="hero-cinematic-title">
+                    {heroSlides[heroIndex].title}<br />
+                    <span className="hero-title-accent">{heroSlides[heroIndex].accent}</span>
+                  </h1>
+                </motion.div>
+              </AnimatePresence>
 
               <div className="hero-cinematic-actions">
                 <button
                   onClick={() => setConsultationOpen(true)}
                   className="btn btn-primary btn-lg"
                 >
-                  <span>Get My Free Quote</span>
+                  <span>Get Free Quote</span>
                 </button>
 
                 <a
                   href="#projects"
                   className="btn btn-secondary-glass btn-lg"
                 >
-                  <span>Explore Our Projects</span>
+                  <span>View Latest Projects</span>
                 </a>
               </div>
             </div>
+          </div>
+
+          {/* Bottom Right Slider Navigation Controls */}
+          <div className="hero-slider-controls">
+            <button
+              onClick={prevHeroSlide}
+              className="hero-slider-btn"
+              aria-label="Previous Slide"
+            >
+              <ChevronLeftIcon size={20} color="#FFFFFF" />
+            </button>
+            <span className="hero-slider-counter">
+              0{heroIndex + 1} / 0{heroSlides.length}
+            </span>
+            <button
+              onClick={nextHeroSlide}
+              className="hero-slider-btn"
+              aria-label="Next Slide"
+            >
+              <ChevronRightIcon size={20} color="#FFFFFF" />
+            </button>
           </div>
         </section>
 

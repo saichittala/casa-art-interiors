@@ -393,3 +393,23 @@ export function WhatsAppIcon({ size = 20, color = "var(--brand-whatsapp, #25D366
     </svg>
   );
 }
+
+export function ArrowLeftIcon({ size = 24, strokeWidth = 2, color = "currentColor", ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
+  );
+}
+
+export function ExpandIcon({ size = 24, strokeWidth = 2, color = "currentColor", ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="m21 3-6 6" />
+      <path d="M21 9V3h-6" />
+      <path d="M3 21l6-6" />
+      <path d="M3 15v6h6" />
+    </svg>
+  );
+}

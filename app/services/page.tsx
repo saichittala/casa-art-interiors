@@ -100,16 +100,17 @@ export default function ServicesPage() {
             {/* 3-Column Service Cards Grid */}
             <div className="services-grid-container">
               {serviceCategories.map((service) => (
-                <div
+                <Link
                   key={service.id}
+                  href={`/services/${service.id}`}
                   className="service-card-item"
-                  onClick={() => setConsultationOpen(true)}
+                  style={{ textDecoration: "none" }}
                 >
                   <div className="service-card-img-box">
                     <img src={service.image} alt={service.title} />
                   </div>
                   <h3 className="service-card-title">{service.title}</h3>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
