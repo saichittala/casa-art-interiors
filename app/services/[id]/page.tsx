@@ -7,191 +7,175 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ConsultationModal from "../../components/ConsultationModal";
 import LightboxModal from "../../components/LightboxModal";
+import FloatingWhatsApp from "../../components/FloatingWhatsApp";
 import ImageWithSkeleton from "../../components/ImageWithSkeleton";
-import { servicesData } from "../../lib/servicesData";
-import {
-  SparklesIcon,
-  CheckIcon,
-  ClockIcon,
-  ShieldCheckIcon,
-  ArrowRightIcon,
-  ExpandIcon
-} from "../../components/Icons";
+import { ExpandIcon, CheckCircleIcon } from "../../components/Icons";
+import { servicesData, ServiceDetail } from "../../lib/servicesData";
 
-export default function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params);
-  const service = servicesData[resolvedParams.id];
+interface ServiceDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const [consultationOpen, setConsultationOpen] = useState(false);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [activeImgIndex, setActiveImgIndex] = useState(0);
+export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+  const { id } = use(params);
+  const service = servicesData.find((s) => s.id === id);
 
   if (!service) {
     notFound();
   }
 
-  const openGallery = (idx: number) => {
-    setActiveImgIndex(idx);
-    setLightboxOpen(true);
-  };
+  const [consultationOpen, setConsultationOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const allCategories = [
+    { id: "bedrooms", label: "Bed Rooms" },
+    { id: "kitchens", label: "Kitchens" },
+    { id: "living-rooms", label: "Living Rooms" },
+    { id: "dining-rooms", label: "Dining Rooms" },
+    { id: "puja", label: "Puja" },
+    { id: "partitions", label: "Partitions" },
+    { id: "study-rooms", label: "Study Rooms" },
+    { id: "office-spaces", label: "Office Spaces" }
+  ];
 
   return (
-    <>
+    <div className="services-page-wrapper">
       <Header onOpenConsultation={() => setConsultationOpen(true)} />
 
       <main>
-        {/* Breadcrumb Navigation Bar */}
-        <section className="services-breadcrumb-bar">
+        {/* Breadcrumb Bar */}
+        <div className="services-breadcrumb-bar">
           <div className="container">
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "var(--text-white-muted)" }}>
-              <Link href="/" style={{ color: "var(--text-white-secondary)" }}>Home</Link>
+            <div className="services-breadcrumb-links">
+              <Link href="/">Home</Link>
               <span>/</span>
-              <Link href="/services" style={{ color: "var(--text-white-secondary)" }}>Services</Link>
+              <Link href="/services">Services</Link>
               <span>/</span>
-              <span style={{ color: "var(--brand-primary, #A6533F)", fontWeight: "600" }}>{service.title}</span>
+              <span className="current">{service.title}</span>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Service Hero Banner */}
+        {/* Hero Banner */}
         <section className="services-hero-banner">
-          <ImageWithSkeleton
-            src={service.heroImage}
+          <img
+            src={service.mainImage}
             alt={service.title}
             className="services-hero-img"
           />
           <div className="services-hero-overlay" />
+        </section>
 
-          <div className="container relative z-10">
-            <div style={{ maxWidth: "720px" }}>
-              <div className="badge badge-brand mb-4">
-                <SparklesIcon size={14} color="var(--brand-primary)" />
-                <span>{service.category}</span>
-              </div>
-
-              <h1 className="services-detail-title">
-                {service.title}
-              </h1>
-
-              <p className="services-detail-tagline">
-                {service.tagline}
-              </p>
-
-              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginTop: "28px" }}>
-                <button
-                  onClick={() => setConsultationOpen(true)}
-                  className="btn btn-primary btn-lg"
+        {/* Horizontal Category Navigation Tabs */}
+        <section className="services-tabs-section">
+          <div className="container">
+            <div className="services-tabs-bar">
+              {allCategories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/services/${cat.id}`}
+                  className={`services-tab-btn ${cat.id === service.id ? "active" : ""}`}
                 >
-                  <span>Book Free 3D Design & Quote</span>
-                </button>
-              </div>
+                  {cat.label}
+                </Link>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Gallery & Description Section */}
-        <section className="section-py" style={{ background: "var(--bg-dark, #060606)" }}>
+        {/* Main Showcase & Gallery Section */}
+        <section className="services-showcase-section">
           <div className="container">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px" }}>
-              {/* Main Featured Interactive Gallery */}
-              <div>
-                <h3 className="section-title mb-6" style={{ fontSize: "24px", color: "#FFF" }}>
-                  Design Showcase & Gallery
-                </h3>
+            <h1 className="services-main-headline">{service.title}</h1>
 
-                <div
-                  className="services-main-image-box"
-                  onClick={() => openGallery(activeImgIndex)}
-                >
-                  <ImageWithSkeleton
-                    src={service.gallery[activeImgIndex]?.src || service.heroImage}
-                    alt={service.gallery[activeImgIndex]?.title || service.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                  <div className="services-img-hover-overlay">
-                    <div className="services-expand-badge">
-                      <ExpandIcon size={18} color="#FFF" />
-                      <span>Click to view Fullscreen</span>
-                    </div>
+            <div className="services-gallery-container">
+              {/* Main Interactive Featured Image Box */}
+              <div
+                className="services-main-image-box"
+                onClick={() => setLightboxOpen(true)}
+              >
+                <ImageWithSkeleton
+                  src={service.gallery[activeImageIndex] || service.mainImage}
+                  alt={`${service.title} Showcase`}
+                  className="services-main-img"
+                />
+                <div className="services-img-hover-overlay">
+                  <div className="services-expand-badge">
+                    <ExpandIcon size={16} color="#FFFFFF" />
+                    <span>Click to Expand</span>
                   </div>
                 </div>
+              </div>
 
-                {/* Gallery Thumbnails */}
-                {service.gallery.length > 1 && (
-                  <div className="services-thumbnails-grid">
-                    {service.gallery.map((item, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => openGallery(idx)}
-                        className={`services-thumb-card ${idx === activeImgIndex ? "active" : ""}`}
-                      >
-                        <ImageWithSkeleton
-                          src={item.src}
-                          alt={item.title}
-                        />
-                        <div className="services-thumb-overlay">
-                          <div className="services-thumb-expand">
-                            <ExpandIcon size={16} color="#FFF" />
-                          </div>
+              {/* Gallery Thumbnails Grid */}
+              {service.gallery && service.gallery.length > 1 && (
+                <div className="services-thumbnails-grid">
+                  {service.gallery.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className={`services-thumb-card ${idx === activeImageIndex ? "active" : ""}`}
+                      onClick={() => setActiveImageIndex(idx)}
+                    >
+                      <img src={img} alt={`${service.title} Thumbnail ${idx + 1}`} />
+                      <div className="services-thumb-overlay">
+                        <div
+                          className="services-thumb-expand"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveImageIndex(idx);
+                            setLightboxOpen(true);
+                          }}
+                        >
+                          <ExpandIcon size={16} color="#FFFFFF" />
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Description & Feature Specifications Box */}
+              <div className="services-description-box" style={{ marginTop: "48px" }}>
+                <h3 style={{ fontSize: "22px", fontWeight: "700", color: "#FFFFFF", marginBottom: "16px" }}>
+                  {service.tagline}
+                </h3>
+                <p style={{ fontSize: "16px", color: "var(--text-white-secondary)", lineHeight: "1.75", marginBottom: "32px" }}>
+                  {service.description}
+                </p>
+
+                {/* Key Features Bullet List */}
+                <div style={{ background: "rgba(255, 255, 255, 0.03)", padding: "32px", borderRadius: "12px", border: "1px solid var(--border-dark-hairline)", textAlign: "left", marginBottom: "40px" }}>
+                  <h4 style={{ fontSize: "18px", fontWeight: "700", color: "var(--brand-primary)", marginBottom: "20px" }}>
+                    Key Architectural Highlights:
+                  </h4>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
+                    {service.features.map((feat, fIdx) => (
+                      <div key={fIdx} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+                        <CheckCircleIcon size={20} color="var(--brand-primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
+                        <span style={{ fontSize: "15px", color: "var(--text-white-secondary)", lineHeight: "1.5" }}>{feat}</span>
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
-
-              {/* Description & Key Highlights */}
-              <div className="services-description-box">
-                <p>{service.description}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features & Technical Specifications Grid */}
-        <section className="section-py" style={{ background: "#0A0A0C", borderTop: "1px solid var(--border-dark-hairline)" }}>
-          <div className="container">
-            <div className="services-specs-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "40px" }}>
-              {/* Features List */}
-              <div>
-                <h3 style={{ fontSize: "22px", color: "#FFF", marginBottom: "20px", fontWeight: "700" }}>
-                  Key Design & Factory Features
-                </h3>
-                <ul style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                  {service.features.map((feat, idx) => (
-                    <li key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "12px", color: "var(--text-white-secondary)", fontSize: "15px", lineHeight: "1.5" }}>
-                      <div style={{ background: "rgba(166, 83, 63, 0.15)", borderRadius: "50%", padding: "4px", flexShrink: 0, marginTop: "2px" }}>
-                        <CheckIcon size={14} color="var(--brand-primary, #A6533F)" />
-                      </div>
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Specifications Card */}
-              <div style={{ background: "var(--surface-dark-card)", border: "1px solid var(--border-dark-medium)", borderRadius: "12px", padding: "28px" }}>
-                <h3 style={{ fontSize: "20px", color: "#FFF", marginBottom: "20px", fontWeight: "700" }}>
-                  Technical Specifications
-                </h3>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {service.specifications.map((spec, idx) => (
-                    <div key={idx} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--border-dark-hairline)", paddingBottom: "12px" }}>
-                      <span style={{ color: "var(--text-white-muted)", fontSize: "14px" }}>{spec.label}</span>
-                      <span style={{ color: "#FFF", fontSize: "14px", fontWeight: "600", textAlign: "right" }}>{spec.value}</span>
-                    </div>
-                  ))}
                 </div>
 
-                <div style={{ marginTop: "24px", paddingTop: "16px", display: "flex", gap: "20px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-white-secondary)", fontSize: "14px" }}>
-                    <ClockIcon size={16} color="var(--brand-primary)" />
-                    <span>Timeline: {service.estimatedTimeline}</span>
+                {/* Material & Engineering Specs Grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", textAlign: "left" }}>
+                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Material Grade</div>
+                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.material}</div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--text-white-secondary)", fontSize: "14px" }}>
-                    <ShieldCheckIcon size={16} color="var(--brand-primary)" />
-                    <span>Warranty: {service.warrantyYears} Years</span>
+                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Warranty</div>
+                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.warranty}</div>
+                  </div>
+                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Hardware</div>
+                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.hardware}</div>
+                  </div>
+                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Timeline</div>
+                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.turnaround}</div>
                   </div>
                 </div>
               </div>
@@ -203,18 +187,15 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
         <section className="services-cta-banner-section">
           <div className="container">
             <div className="services-cta-card">
-              <h2 className="services-cta-title">
-                Ready to Design Your {service.title}?
-              </h2>
+              <h2 className="services-cta-title">Book Free Design Session</h2>
               <p className="services-cta-desc">
-                Schedule a consultation with our senior architects and get a complimentary 3D concept layout with factory-direct pricing.
+                Get expert guidance and personalized design ideas for your space with Casa Art Interiors.
               </p>
               <button
                 onClick={() => setConsultationOpen(true)}
                 className="btn btn-primary btn-lg services-cta-btn"
               >
-                <span>Book Free Consultation</span>
-                <ArrowRightIcon size={18} color="#FFF" />
+                <span>Book for Free Consultation</span>
               </button>
             </div>
           </div>
@@ -222,6 +203,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
       </main>
 
       <Footer />
+      <FloatingWhatsApp />
 
       <ConsultationModal
         isOpen={consultationOpen}
@@ -231,10 +213,11 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
       <LightboxModal
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
-        items={service.gallery}
-        currentIndex={activeImgIndex}
-        onNavigate={(idx) => setActiveImgIndex(idx)}
+        images={service.gallery}
+        currentIndex={activeImageIndex}
+        onNavigate={(idx) => setActiveImageIndex(idx)}
+        title={service.title}
       />
-    </>
+    </div>
   );
 }

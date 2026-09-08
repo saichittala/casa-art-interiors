@@ -6,26 +6,24 @@ interface ImageWithSkeletonProps extends React.ImgHTMLAttributes<HTMLImageElemen
   src: string;
   alt: string;
   className?: string;
-  wrapperClassName?: string;
 }
 
 export default function ImageWithSkeleton({
   src,
   alt,
   className = "",
-  wrapperClassName = "",
   style,
   ...props
 }: ImageWithSkeletonProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className={`img-skeleton-wrapper dark-skeleton-loader ${isLoaded ? "is-loaded" : ""} ${wrapperClassName}`}>
+    <div className={`img-skeleton-wrapper ${loaded ? "is-loaded" : "is-loading"}`} style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
       <img
         src={src}
         alt={alt}
-        className={`${className} ${isLoaded ? "is-loaded" : ""}`}
-        onLoad={() => setIsLoaded(true)}
+        onLoad={() => setLoaded(true)}
+        className={`${className} ${loaded ? "image-reveal-active" : ""}`}
         style={style}
         {...props}
       />

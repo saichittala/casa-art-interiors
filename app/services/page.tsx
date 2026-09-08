@@ -104,7 +104,6 @@ export default function ServicesPage() {
                   key={service.id}
                   href={`/services/${service.id}`}
                   className="service-card-item"
-                  style={{ textDecoration: "none" }}
                 >
                   <div className="service-card-img-box">
                     <img src={service.image} alt={service.title} />

@@ -1,44 +1,25 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { XCloseIcon, ArrowLeftIcon, ArrowRightIcon } from "./Icons";
-
-interface LightboxItem {
-  src: string;
-  title: string;
-  desc?: string;
-}
+import { XCloseIcon, ChevronLeftIcon, ChevronRightIcon } from "./Icons";
 
 interface LightboxModalProps {
   isOpen: boolean;
   onClose: () => void;
-  items: LightboxItem[];
+  images: string[];
   currentIndex: number;
   onNavigate: (index: number) => void;
+  title?: string;
 }
 
 export default function LightboxModal({
   isOpen,
   onClose,
-  items,
+  images,
   currentIndex,
-  onNavigate
+  onNavigate,
+  title
 }: LightboxModalProps) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen) return;
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") {
-        onNavigate((currentIndex - 1 + items.length) % items.length);
-      }
-      if (e.key === "ArrowRight") {
-        onNavigate((currentIndex + 1) % items.length);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, currentIndex, items.length, onClose, onNavigate]);
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -50,77 +31,52 @@ export default function LightboxModal({
     };
   }, [isOpen]);
 
-  if (!isOpen || items.length === 0) return null;
+  if (!isOpen || !images || images.length === 0) return null;
 
-  const currentItem = items[currentIndex] || items[0];
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const prevIdx = (currentIndex - 1 + images.length) % images.length;
+    onNavigate(prevIdx);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const nextIdx = (currentIndex + 1) % images.length;
+    onNavigate(nextIdx);
+  };
 
   return (
     <div className="lightbox-overlay" onClick={onClose}>
       <div className="lightbox-container" onClick={(e) => e.stopPropagation()}>
-        {/* Top Bar */}
+        {/* Top bar with counter on left, title in middle, close on right */}
         <div className="lightbox-top-bar">
           <div className="lightbox-counter">
-            {currentIndex + 1} / {items.length}
+            {currentIndex + 1} / {images.length}
           </div>
-
-          <button
-            onClick={onClose}
-            className="lightbox-close-btn"
-            aria-label="Close modal"
-          >
+          {title && <div style={{ color: "var(--text-white-pure)", fontWeight: "600", fontSize: "16px" }}>{title}</div>}
+          <button className="lightbox-close-btn" onClick={onClose} aria-label="Close Lightbox">
             <XCloseIcon size={24} color="#FFFFFF" />
           </button>
         </div>
 
-        {/* Main Image Stage */}
+        {/* Main image stage */}
         <div className="lightbox-main-stage">
-          {items.length > 1 && (
-            <button
-              onClick={() => onNavigate((currentIndex - 1 + items.length) % items.length)}
-              className="lightbox-nav-btn prev"
-              aria-label="Previous image"
-            >
-              <ArrowLeftIcon size={24} color="#FFFFFF" />
-            </button>
-          )}
+          <button className="hero-slider-btn" onClick={handlePrev} style={{ position: "absolute", left: "20px", zIndex: 10 }}>
+            <ChevronLeftIcon size={24} color="#FFFFFF" />
+          </button>
 
           <div className="lightbox-img-wrapper">
             <img
-              src={currentItem.src}
-              alt={currentItem.title}
+              src={images[currentIndex]}
+              alt={title || `Showcase Image ${currentIndex + 1}`}
               className="lightbox-active-img"
             />
-            <div className="lightbox-img-caption">
-              <h4>{currentItem.title}</h4>
-              {currentItem.desc && <p>{currentItem.desc}</p>}
-            </div>
           </div>
 
-          {items.length > 1 && (
-            <button
-              onClick={() => onNavigate((currentIndex + 1) % items.length)}
-              className="lightbox-nav-btn next"
-              aria-label="Next image"
-            >
-              <ArrowRightIcon size={24} color="#FFFFFF" />
-            </button>
-          )}
+          <button className="hero-slider-btn" onClick={handleNext} style={{ position: "absolute", right: "20px", zIndex: 10 }}>
+            <ChevronRightIcon size={24} color="#FFFFFF" />
+          </button>
         </div>
-
-        {/* Thumbnails Bar */}
-        {items.length > 1 && (
-          <div className="lightbox-thumbs-strip">
-            {items.map((item, idx) => (
-              <button
-                key={idx}
-                onClick={() => onNavigate(idx)}
-                className={`lightbox-thumb-btn ${idx === currentIndex ? "active" : ""}`}
-              >
-                <img src={item.src} alt={item.title} />
-              </button>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

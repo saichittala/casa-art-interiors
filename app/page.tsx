@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ConsultationModal from "./components/ConsultationModal";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import BeforeAfterSlider from "./components/BeforeAfterSlider";
 import FaqAccordion from "./components/FaqAccordion";
-import { motion, AnimatePresence } from "framer-motion";
+import ImageWithSkeleton from "./components/ImageWithSkeleton";
 import {
   FactoryIcon,
   MapPinIcon,
@@ -67,21 +68,24 @@ const heroSlides = [
 
 const heroSlideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? "3%" : "-3%",
+    x: direction > 0 ? "6%" : "-6%",
     opacity: 0,
-    scale: 1.04
+    filter: "blur(40px) brightness(0.6)",
+    scale: 1.10
   }),
   center: {
     zIndex: 1,
     x: "0%",
     opacity: 1,
+    filter: "blur(0px) brightness(1)",
     scale: 1
   },
   exit: (direction: number) => ({
     zIndex: 0,
-    x: direction < 0 ? "3%" : "-3%",
+    x: direction < 0 ? "6%" : "-6%",
     opacity: 0,
-    scale: 0.97
+    filter: "blur(40px) brightness(0.5)",
+    scale: 0.92
   })
 };
 
@@ -103,7 +107,7 @@ export default function HomePage() {
     setHeroIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setHeroDirection(1);
       setHeroIndex((prev) => (prev + 1) % heroSlides.length);
@@ -138,48 +142,56 @@ export default function HomePage() {
 
   const featuredServices = [
     {
+      id: "bedrooms",
       num: "01",
       title: "Bed Rooms",
       desc: "Turn your bedroom into a peaceful retreat with bespoke designs tailored to your style.",
       image: "/assets/casa-art/bedroom-suite.jpg"
     },
     {
+      id: "kitchens",
       num: "02",
       title: "Kitchens",
       desc: "Experience the perfect blend of aesthetics and efficiency with a smart, space-optimized modular kitchen.",
       image: "/assets/casa-art/modular-kitchen.jpg"
     },
     {
+      id: "living-rooms",
       num: "03",
       title: "Living Rooms",
       desc: "Create a stunning first impression with a living room that balances elegance, comfort, and functionality.",
       image: "/assets/casa-art/hero-living.jpg"
     },
     {
+      id: "dining-rooms",
       num: "04",
       title: "Dining Rooms",
       desc: "Dine in style with elegant and functional spaces designed for memorable gatherings.",
       image: "/assets/casa-art/dining-interior.jpg"
     },
     {
+      id: "puja",
       num: "05",
       title: "Puja",
       desc: "Create a serene sanctuary with a pooja room designed for peace and positivity.",
-      image: "/assets/casa-art/after-room.jpg"
+      image: "/assets/casa-art/puja-room.jpg"
     },
     {
+      id: "partitions",
       num: "06",
       title: "Partitions",
       desc: "Define spaces effortlessly with stylish, functional partitions that enhance aesthetics and privacy.",
-      image: "/assets/casa-art/luxury-wardrobe.jpg"
+      image: "/assets/casa-art/after-room.jpg"
     },
     {
+      id: "study-rooms",
       num: "07",
       title: "Study Rooms",
       desc: "Boost focus and productivity with a study space that blends comfort and inspiration.",
-      image: "/assets/casa-art/factory-floor.jpg"
+      image: "/assets/casa-art/study-room.jpg"
     },
     {
+      id: "office-spaces",
       num: "08",
       title: "Office Spaces",
       desc: "Design workspaces that fuel creativity, efficiency, and success.",
@@ -295,7 +307,7 @@ export default function HomePage() {
 
       <main id="main-content">
         {/* =================================================================
-            1. HERO SECTION (FULL-BLEED CINEMATIC SHOWCASE)
+            1. HERO SECTION (FULL-BLEED CINEMATIC SHOWCASE WITH AUTOMATIC SLIDER)
             ================================================================= */}
         <section className="hero-cinematic-section">
           {/* Background Image Layer with Framer Motion Slide Animation */}
@@ -309,7 +321,7 @@ export default function HomePage() {
                 animate="center"
                 exit="exit"
                 transition={{
-                  duration: 0.9,
+                  duration: 1.1,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
@@ -330,10 +342,10 @@ export default function HomePage() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={heroIndex}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, filter: "blur(24px)", y: 20 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                  exit={{ opacity: 0, filter: "blur(24px)", y: -20 }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <h1 className="hero-cinematic-title">
                     {heroSlides[heroIndex].title}<br />
@@ -360,8 +372,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Bottom Right Slider Navigation Controls */}
+          {/* Bottom Right Slider Navigation Controls (20px bottom & 20px right) */}
           <div className="hero-slider-controls">
+            <div className="hero-slider-counter">
+              0{heroIndex + 1} <span style={{ opacity: 0.45 }}>/</span> 0{heroSlides.length}
+            </div>
             <button
               onClick={prevHeroSlide}
               className="hero-slider-btn"
@@ -369,9 +384,6 @@ export default function HomePage() {
             >
               <ChevronLeftIcon size={20} color="#FFFFFF" />
             </button>
-            <span className="hero-slider-counter">
-              0{heroIndex + 1} / 0{heroSlides.length}
-            </span>
             <button
               onClick={nextHeroSlide}
               className="hero-slider-btn"
@@ -566,25 +578,29 @@ export default function HomePage() {
               className="featured-services-slider-container"
             >
               {featuredServices.map((service) => (
-                <div key={service.num} className="featured-service-card-item">
+                <Link
+                  key={service.num}
+                  href={`/services/${service.id}`}
+                  className="featured-service-card-item"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className="featured-service-num">{service.num}</div>
                   <div className="featured-service-img-wrapper">
-                    <img src={service.image} alt={service.title} />
+                    <ImageWithSkeleton src={service.image} alt={service.title} />
                   </div>
                   <div className="featured-service-white-box">
                     <div>
                       <h3 className="featured-service-title">{service.title}</h3>
                       <p className="featured-service-desc">{service.desc}</p>
                     </div>
-                    <button
-                      onClick={() => setConsultationOpen(true)}
+                    <div
                       className="featured-service-arrow-btn"
                       aria-label={`Explore ${service.title}`}
                     >
                       <ArrowRightIcon size={18} />
-                    </button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -604,7 +620,7 @@ export default function HomePage() {
               {projects.map((project) => (
                 <div key={project.id} className="project-card-item">
                   <div className="project-card-img-wrapper">
-                    <img src={project.image} alt={project.name} />
+                    <ImageWithSkeleton src={project.image} alt={project.name} />
                   </div>
                   <div className="project-card-white-box">
                     <h3 className="project-card-title">{project.name}</h3>
@@ -630,25 +646,25 @@ export default function HomePage() {
 
             {/* Dual Images Grid */}
             <div className="differentiator-images-grid">
-              <div style={{ overflow: "hidden", border: "1px solid var(--brand-border-subtle)", position: "relative" }}>
+              <div style={{ overflow: "hidden", border: "1px solid var(--brand-border-subtle)", position: "relative", borderRadius: "6px", height: "clamp(280px, 30vw, 380px)", background: "#121212" }}>
                 <img
                   src="/assets/casa-art/modular-kitchen.jpg"
                   alt="Finished Interior by Casa Art"
-                  style={{ width: "100%", height: "360px", objectFit: "cover" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(6, 6, 6, 0.88)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", border: "1px solid var(--brand-border)" }}>
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(6, 6, 6, 0.88)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", border: "1px solid var(--brand-border)", borderRadius: "4px" }}>
                   <SparklesIcon size={14} color="var(--brand-primary)" />
                   <span>PRECISE CNC FINISH</span>
                 </div>
               </div>
 
-              <div style={{ position: "relative", border: "1px solid var(--brand-border-subtle)", overflow: "hidden", minHeight: "260px" }}>
+              <div style={{ overflow: "hidden", border: "1px solid var(--brand-border-subtle)", position: "relative", borderRadius: "6px", height: "clamp(280px, 30vw, 380px)", background: "#121212" }}>
                 <img
                   src="/assets/casa-art/factory.jpg"
                   alt="Casa Art Modular Factory Facility Hyderabad"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "var(--brand-primary)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "800", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "var(--brand-primary)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "800", display: "inline-flex", alignItems: "center", gap: "6px", borderRadius: "4px" }}>
                   <FactoryIcon size={14} color="var(--text-light-primary)" />
                   <span>KOKAPET FACILITY</span>
                 </div>
@@ -946,7 +962,7 @@ export default function HomePage() {
                   }}
                 >
                   <div className="form-group">
-                    <label className="form-label" style={{ color: "var(--text-light-primary)" }}>Full Name</label>
+                    <label className="form-label">Full Name</label>
                     <input
                       type="text"
                       required
@@ -956,7 +972,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label" style={{ color: "var(--text-light-primary)" }}>Phone Number (WhatsApp)</label>
+                    <label className="form-label">Phone Number (WhatsApp)</label>
                     <input
                       type="tel"
                       required
@@ -967,7 +983,7 @@ export default function HomePage() {
 
                   <div className="form-row">
                     <div className="form-group">
-                      <label className="form-label" style={{ color: "var(--text-light-primary)" }}>Property Type</label>
+                      <label className="form-label">Property Type</label>
                       <select className="form-select">
                         <option>Magna Solitaire</option>
                         <option>3 BHK Apartment</option>
@@ -978,7 +994,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label" style={{ color: "var(--text-light-primary)" }}>Budget Range</label>
+                      <label className="form-label">Budget Range</label>
                       <select className="form-select">
                         <option>₹10L - ₹20L</option>
                         <option>₹20L - ₹35L</option>
@@ -1004,26 +1020,82 @@ export default function HomePage() {
         {/* =================================================================
             12. BOTTOM VALUE PROPS STRIP (Deep Charcoal #060606)
             ================================================================= */}
-        <section style={{ background: "var(--bg-dark)", color: "var(--text-light-secondary)", padding: "44px 0" }}>
+        <section style={{ background: "var(--bg-dark)", color: "var(--text-light-secondary)", padding: "52px 0", borderTop: "1px solid var(--border-dark-hairline)" }}>
           <div className="container">
             <div className="guarantee-badges-grid">
-              <div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px" }}>CUSTOM DESIGNS</div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(166, 83, 63, 0.10)",
+                  border: "1px solid rgba(166, 83, 63, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px",
+                  color: "var(--brand-primary)"
+                }}>
+                  <CompassIcon size={24} color="var(--brand-primary)" />
+                </div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>CUSTOM DESIGNS</div>
                 <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Tailored for you</div>
               </div>
 
-              <div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px" }}>PREMIUM MATERIALS</div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(166, 83, 63, 0.10)",
+                  border: "1px solid rgba(166, 83, 63, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px",
+                  color: "var(--brand-primary)"
+                }}>
+                  <DiamondIcon size={24} color="var(--brand-primary)" />
+                </div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>PREMIUM MATERIALS</div>
                 <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Lasting beauty</div>
               </div>
 
-              <div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px" }}>EXPERT TEAM</div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(166, 83, 63, 0.10)",
+                  border: "1px solid rgba(166, 83, 63, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px",
+                  color: "var(--brand-primary)"
+                }}>
+                  <ToolIcon size={24} color="var(--brand-primary)" />
+                </div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>EXPERT TEAM</div>
                 <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Professional installation</div>
               </div>
 
-              <div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px" }}>ON-TIME DELIVERY</div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(166, 83, 63, 0.10)",
+                  border: "1px solid rgba(166, 83, 63, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px",
+                  color: "var(--brand-primary)"
+                }}>
+                  <ClockIcon size={24} color="var(--brand-primary)" />
+                </div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>ON-TIME DELIVERY</div>
                 <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Every single time</div>
               </div>
             </div>

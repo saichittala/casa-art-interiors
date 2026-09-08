@@ -2,222 +2,234 @@ export interface ServiceDetail {
   id: string;
   title: string;
   category: string;
-  shortDesc: string;
-  heroImage: string;
   tagline: string;
   description: string;
-  gallery: { src: string; title: string; desc: string }[];
+  mainImage: string;
+  gallery: string[];
   features: string[];
-  specifications: { label: string; value: string }[];
-  estimatedTimeline: string;
-  warrantyYears: number;
+  specs: {
+    material: string;
+    warranty: string;
+    hardware: string;
+    turnaround: string;
+  };
 }
 
-export const servicesData: Record<string, ServiceDetail> = {
-  bedrooms: {
+export const servicesData: ServiceDetail[] = [
+  {
     id: "bedrooms",
-    title: "Luxury Master Bedrooms & Wardrobes",
-    category: "Residential Architecture",
-    shortDesc: "Turn your bedroom into a peaceful sanctuary with bespoke master suites, walk-in closets, and floor-to-ceiling floor-space engineered modular wardrobes.",
-    heroImage: "/assets/casa-art/bedroom-suite.jpg",
-    tagline: "Crafted for Serenity, Ergonomics & Timeless Comfort",
-    description: "Our luxury bedroom suite designs fuse ergonomic spatial layouts with imported finishes, ambient LED cove illumination, acoustic padded headboards, and floor-to-ceiling wardrobes built with German-engineered hardware in our Kokapet factory.",
+    title: "Bed Rooms",
+    category: "Bed Rooms",
+    tagline: "Turn your bedroom into a peaceful sanctuary with bespoke luxury design",
+    description: "Your bedroom is your private sanctuary. Our bespoke bedroom interior designs combine quiet luxury, ergonomic spatial planning, and high-end material finishes. From custom upholstered headboards and fluted paneling to velvet-lined wardrobe drawers and integrated mood lighting, every detail is engineered to create a tranquil, spa-like atmosphere.",
+    mainImage: "/assets/casa-art/bedroom-suite.jpg",
     gallery: [
-      { src: "/assets/casa-art/bedroom-suite.jpg", title: "Master Suite", desc: "Custom king-size upholstered bed with integrated fluted wooden wall panels." },
-      { src: "/assets/casa-art/luxury-wardrobe.jpg", title: "Walk-In Closet", desc: "Tinted glass wardrobes with motion-sensor interior warm LED lighting strips." },
-      { src: "/assets/casa-art/after-room.jpg", title: "Guest Bedroom", desc: "Space-maximizing modular study desk paired with sleek wardrobe extension." }
+      "/assets/casa-art/bedroom-suite.jpg",
+      "/assets/casa-art/luxury-wardrobe.jpg",
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/study-room.jpg"
     ],
     features: [
-      "BWP Marine Grade Plywood structure resistant to boiling water and humidity",
-      "Soft-close Hettich / Hafele tandem box drawers and Blum hinge systems",
-      "Integrated floor-to-ceiling glass & aluminum profile sliding wardrobe doors",
-      "Custom upholstered velvet & leatherette headboard paneling",
-      "Automated motion-sensor wardrobe interior LED light channels"
+      "Custom Upholstered Velvet & Italian Leather Headboards",
+      "Sliding Fluted Glass & Mirror Panel Wardrobes",
+      "Integrated Sensor LED Strip Illumination",
+      "Concealed Bedside Drops & Smart Automation Switchboards",
+      "Custom Floating Vanity Units & Dressers"
     ],
-    specifications: [
-      { label: "Core Material", value: "100% Calibrated BWP Marine Plywood (IS 710)" },
-      { label: "Surface Finish", value: "Anti-Fingerprint Matte Acrylic / High-Gloss PU Paint" },
-      { label: "Hardware & Fittings", value: "German Hafele / Hettich Soft-Close Systems" },
-      { label: "Warranty", value: "10-Year Comprehensive Factory Warranty" },
-      { label: "Handover Time", value: "35 - 45 Working Days" }
-    ],
-    estimatedTimeline: "35 - 45 Days",
-    warrantyYears: 10
+    specs: {
+      material: "BWP Grade Marine Plywood & Acrylic/PU Spray Finish",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Hafele & Blum Soft-Close German Fittings",
+      turnaround: "45 Days Factory-to-Site Installation"
+    }
   },
-  kitchens: {
+  {
     id: "kitchens",
-    title: "German-Engineered Modular Kitchens",
-    category: "Modular Engineering",
-    shortDesc: "Experience culinary perfection with zero-gap edge banded modular kitchens featuring quartz countertops, tandem drawers, and smart storage units.",
-    heroImage: "/assets/casa-art/modular-kitchen.jpg",
-    tagline: "Precision Engineering Meets Culinary Elegance",
-    description: "Designed for high-durability Indian culinary needs, our modular kitchens feature boiling-water-proof (BWP) marine plywood carcasses, German zero-joint edge banding, quartz counter surfaces, pull-out larders, and magic corner storage hardware.",
+    title: "Kitchens",
+    category: "Kitchens",
+    tagline: "Ergonomically engineered kitchens blending aesthetics and efficiency",
+    description: "Experience the perfect harmony of German modular engineering and luxury design. Manufactured in our state-of-the-art Kokapet facility, our kitchens feature 100% waterproof BWP marine plywood, anti-fingerprint acrylic and PU finishes, quartz counter surfaces, and intelligent pantry organizers.",
+    mainImage: "/assets/casa-art/modular-kitchen.jpg",
     gallery: [
-      { src: "/assets/casa-art/modular-kitchen.jpg", title: "Island Kitchen", desc: "German-engineered island kitchen with seamless quartz breakfast bar." },
-      { src: "/assets/casa-art/dining-interior.jpg", title: "Parallel Kitchen Layout", desc: "Handleless acrylic cabinets with anti-touch matte black profiles." }
+      "/assets/casa-art/modular-kitchen.jpg",
+      "/assets/casa-art/dining-interior.jpg",
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/bedroom-suite.jpg"
     ],
     features: [
-      "Zero-joint edge banding with PUR adhesive technology for 100% waterproof edges",
-      "Heavy-duty quartz & granite stone countertops with anti-stain sealant",
-      "Hafele cargo pull-out pantries and cutlery organizer trays",
-      "Built-in appliance housings for oven, microwave, dishwasher & chimney",
-      "100% termite-proof & boiling-water-resistant BWP marine ply"
+      "100% Boiling Water Proof (BWP) Marine Plywood Carcass",
+      "Hafele & Blum Soft-Close Drawer & Lift-up Systems",
+      "Italian Quartz & Calacatta Marble Countertops",
+      "Pull-out Pantry Towers & Blind Corner Magic Trays",
+      "Seamless Built-in Appliance Cabinets"
     ],
-    specifications: [
-      { label: "Carcass Material", value: "Boiling Water Proof BWP Marine Ply (710 Grade)" },
-      { label: "Shutter Finish", value: "Imported 2mm Acrylic / Polyurethane (PU) Lacquer" },
-      { label: "Countertop", value: "Quartz / Nano-Crystallized White Marble" },
-      { label: "Hardware", value: "Hafele / Hettich Sensys Soft-Close Hinges" },
-      { label: "Warranty", value: "10-Year Factory Warranty" }
-    ],
-    estimatedTimeline: "30 - 40 Days",
-    warrantyYears: 10
+    specs: {
+      material: "Marine BWP Plywood + Anti-Fingerprint Acrylic / PU",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Blum Tandembox & Hafele Hettich Systems",
+      turnaround: "40 Days Delivery & Installation"
+    }
   },
-  "living-rooms": {
+  {
     id: "living-rooms",
-    title: "Cinematic Living & Dining Rooms",
-    category: "Interior Architecture",
-    shortDesc: "Make an unforgettable impression with custom TV entertainment walls, Italian marble cladding, acoustic acoustic acoustic acoustic wood paneling, and statement ceiling lighting.",
-    heroImage: "/assets/casa-art/hero-living.jpg",
-    tagline: "Statement Furniture, Ambient Illumination & Architectural Wall Panelings",
-    description: "Transform your living space into a high-end luxury lounge. We specialize in book-matched Italian marble media backdrops, louvers, fluted acoustic paneling, concealed magnetic track lights, and bespoke sofa configurations.",
+    title: "Living Rooms",
+    category: "Living Rooms",
+    tagline: "Grand entertaining spaces crafted with architectural sophistication",
+    description: "Create an unforgettable impression with a living room designed around your lifestyle. Featuring custom fluted wood paneling, floating marble TV consoles, acoustic ceiling treatments, and ambient magnetic track lighting.",
+    mainImage: "/assets/casa-art/hero-living.jpg",
     gallery: [
-      { src: "/assets/casa-art/hero-living.jpg", title: "Grand Living Room", desc: "Italian marble wall paneling with brushed brass accent channels." },
-      { src: "/assets/casa-art/dining-interior.jpg", title: "Luxury Dining Space", desc: "8-seater marble table with custom suspended crystal chandelier." }
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/after-room.jpg",
+      "/assets/casa-art/dining-interior.jpg",
+      "/assets/casa-art/bedroom-suite.jpg"
     ],
     features: [
-      "Custom book-matched marble & sintered stone media walls",
-      "Fluted acoustic charcoal & louvers paneling with hidden LED strips",
-      "Architectural magnetic track lighting and dimmable cove ceilings",
-      "Custom-sized Italian leather sectional sofas & lounge armchairs"
+      "Bespoke Charcoal & Veneer Wall Cladding Paneling",
+      "Italian Marble Floating TV Units with LED Backlighting",
+      "Architectural Gypsum Ceiling & Magnetic Track Lighting",
+      "Custom Leather & Velvet Sofa Sets",
+      "Designer Bar & Display Crockery Units"
     ],
-    specifications: [
-      { label: "Wall Materials", value: "Imported Italian Marble / Louvered Charcoal Panels" },
-      { label: "Lighting System", value: "Dimmable Magnetic Track Lights & COB Warm LEDs" },
-      { label: "Furniture Framework", value: "Solid Teak Wood & High-Density Molded Foam" },
-      { label: "Warranty", value: "10-Year Warranty" }
-    ],
-    estimatedTimeline: "35 - 45 Days",
-    warrantyYears: 10
+    specs: {
+      material: "Natural Veneers, Charcoal Louvers & Italian Marble",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Concealed Heavy-Duty Mounting Hardware",
+      turnaround: "45 Days Factory Execution"
+    }
   },
-  "dining-rooms": {
+  {
     id: "dining-rooms",
-    title: "Elegantly Crafted Dining Spaces",
-    category: "Bespoke Furniture",
-    shortDesc: "Create memorable family moments in thoughtfully designed dining rooms with handcrafted dining tables, crockery units, and ambient chandeliers.",
-    heroImage: "/assets/casa-art/dining-interior.jpg",
-    tagline: "Refined Dining Architecture for Hospitality & Home",
-    description: "Our dining space designs harmonally blend custom stone dining tables, upholstered ergonomic dining chairs, and fluted glass crockery bars equipped with warm wine rack lighting.",
+    title: "Dining Rooms",
+    category: "Dining Rooms",
+    tagline: "Dine in style with elegant spaces tailored for gatherings",
+    description: "Elevate your dining experience with custom marble tables, upholstered dining chairs, stylish crockery display cabinets, and warm ambient pendant lighting that set the mood for every meal.",
+    mainImage: "/assets/casa-art/dining-interior.jpg",
     gallery: [
-      { src: "/assets/casa-art/dining-interior.jpg", title: "Dining Suite", desc: "Marble top dining table with brushed metal legs." }
+      "/assets/casa-art/dining-interior.jpg",
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/modular-kitchen.jpg",
+      "/assets/casa-art/after-room.jpg"
     ],
     features: [
-      "Handcrafted solid teak & marble top dining tables",
-      "Custom fluted glass crockery units with internal LED warm spotlights",
-      "Stain-resistant imported fabric dining chairs"
+      "Custom Italian Marble & Solid Wood Dining Tables",
+      "Glass Display Cabinets with Touch Sensor Lighting",
+      "Designer Crockery & Wine Storage Consoles",
+      "Upholstered Ergonomic Dining Chairs",
+      "Accent Feature Wall Paneling"
     ],
-    specifications: [
-      { label: "Table Top", value: "Italian Marble / Sintered Quartz Stone" },
-      { label: "Crockery Cabinet", value: "Aluminum Frame Tinted Fluted Glass Doors" },
-      { label: "Warranty", value: "10-Year Warranty" }
-    ],
-    estimatedTimeline: "25 - 35 Days",
-    warrantyYears: 10
+    specs: {
+      material: "Solid Teak Wood, Italian Marble & Tinted Glass",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Soft-close Hettich Glass Hinges",
+      turnaround: "35 Days Custom Fabrication"
+    }
   },
-  puja: {
+  {
     id: "puja",
-    title: "Sacred Puja Room Architecture",
-    category: "Cultural Interiors",
-    shortDesc: "Design a quiet, spiritual sanctuary with intricate CNC brass inlay work, teakwood mandapam structures, and backlighted onyx marble.",
-    heroImage: "/assets/casa-art/puja-room.jpg",
-    tagline: "Sacred Geometry, Warm Illumination & Timeless Craftsmanship",
-    description: "We craft tranquil pooja sanctuaries featuring traditional brass motif bells, CNC laser-cut wooden jaalis, translucent backlighted onyx stone walls, and dedicated brass drawer storage for sacred items.",
+    title: "Puja",
+    category: "Puja",
+    tagline: "Serene sacred sanctuaries designed for peace and spiritual warmth",
+    description: "Our puja room designs blend sacred tradition with modern aesthetic refinement. From intricate CNC lattice jaali work and brass inlay bells to warm teak wood mandir structures and ambient backlighting.",
+    mainImage: "/assets/casa-art/puja-room.jpg",
     gallery: [
-      { src: "/assets/casa-art/puja-room.jpg", title: "Pooja Room", desc: "CNC brass inlaid teakwood doors with backlit Onyx marble backdrop." }
+      "/assets/casa-art/puja-room.jpg",
+      "/assets/casa-art/after-room.jpg",
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/bedroom-suite.jpg"
     ],
     features: [
-      "Backlit translucency onyx stone & alabaster marble walls",
-      "Precision laser-cut wooden & brass jaali partitions",
-      "Teakwood mandapam arches with bell hangings"
+      "Precision CNC Jaali Cutting & Brass Bell Inlays",
+      "Teak Wood Mandir Structure & Marble Steps",
+      "Warm Concealed LED Backlighting",
+      "Concealed Drawer Storage for Sacred Accessories",
+      "Stain-Resistant Washable Wall Treatments"
     ],
-    specifications: [
-      { label: "Wood Type", value: "Seasoned Burma Teak Wood" },
-      { label: "Backdrop Material", value: "Natural Backlit Onyx Marble" },
-      { label: "Warranty", value: "10-Year Factory Warranty" }
-    ],
-    estimatedTimeline: "25 - 35 Days",
-    warrantyYears: 10
+    specs: {
+      material: "Burma Teak Wood, Corian & Brass Elements",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Heavy-Duty Brass Fittings & Concealed Hinges",
+      turnaround: "30 Days On-Site Installation"
+    }
   },
-  partitions: {
+  {
     id: "partitions",
-    title: "Architectural Space Partitions",
-    category: "Space Optimization",
-    shortDesc: "Effortlessly divide living and dining areas with custom fluted glass metal partitions, wooden louvers, and decorative shelving displays.",
-    heroImage: "/assets/casa-art/after-room.jpg",
-    tagline: "Privacy Without Sacrificing Natural Light & Flow",
-    description: "Partition wall systems that elegantly separate foyer, living, and dining spaces while enhancing acoustic privacy and visual appeal with rose-gold aluminum framing and fluted glass panels.",
+    title: "Partitions",
+    category: "Partitions",
+    tagline: "Effortless architectural dividers enhancing privacy and space flow",
+    description: "Define distinct zones within open-plan homes using handcrafted fluted glass partitions, PVD gold stainless steel screens, wooden swivel louvers, and decorative room dividers.",
+    mainImage: "/assets/casa-art/after-room.jpg",
     gallery: [
-      { src: "/assets/casa-art/after-room.jpg", title: "Fluted Glass Partition", desc: "Black metal profile partition with clear and fluted toughened glass." }
+      "/assets/casa-art/after-room.jpg",
+      "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/dining-interior.jpg",
+      "/assets/casa-art/study-room.jpg"
     ],
     features: [
-      "Toughened fluted & clear architectural glass panels",
-      "Anodized black / rose-gold aluminum slim framing",
-      "Rotatable wooden louver columns"
+      "PVD Coated Rose Gold & Brass Stainless Steel Frames",
+      "Toughened Fluted & Tinted Glass Inserts",
+      "Swivel Wooden Louver Dividers",
+      "Integrated Planter & Display Nooks",
+      "Slimline Ceiling-Mounted Sliding Tracks"
     ],
-    specifications: [
-      { label: "Frame Material", value: "Anodized Heavy Aluminum Profile" },
-      { label: "Glass Type", value: "8mm Toughened Fluted Glass" },
-      { label: "Warranty", value: "10-Year Factory Warranty" }
-    ],
-    estimatedTimeline: "20 - 30 Days",
-    warrantyYears: 10
+    specs: {
+      material: "304 Stainless Steel PVD, Fluted Glass & Teak Wood",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Top-Hung Smooth Sliding Tracks",
+      turnaround: "25 Days Custom Manufacturing"
+    }
   },
-  "study-rooms": {
+  {
     id: "study-rooms",
-    title: "Ergonomic Home Offices & Study Rooms",
-    category: "Workplace Efficiency",
-    shortDesc: "Boost focus and productivity with custom ergonomic desks, acoustic wall cladding, book archives, and cable-managed workstations.",
-    heroImage: "/assets/casa-art/study-room.jpg",
-    tagline: "Designed for Uninterrupted Focus, Comfort & Innovation",
-    description: "Tailor-made study and home office workstations designed with integrated wire management, anti-glare task LED lighting, display bookshelves, and acoustic sound-dampening wall panels.",
+    title: "Study Rooms",
+    category: "Study Rooms",
+    tagline: "Ergonomic workspaces designed to inspire productivity and focus",
+    description: "Designed for modern remote work and study, our custom study rooms feature ergonomic desk layouts, integrated bookshelf units, hidden cable management, and glare-free task illumination.",
+    mainImage: "/assets/casa-art/study-room.jpg",
     gallery: [
-      { src: "/assets/casa-art/study-room.jpg", title: "Executive Study Desk", desc: "Wall-mounted desk with concealed wire channels and open bookshelf." }
+      "/assets/casa-art/study-room.jpg",
+      "/assets/casa-art/bedroom-suite.jpg",
+      "/assets/casa-art/factory.jpg",
+      "/assets/casa-art/hero-living.jpg"
     ],
     features: [
-      "Concealed wire-management raceways and pop-up power ports",
-      "Anti-glare LED under-shelf desk illumination",
-      "Modular book shelves with soft-close glass storage"
+      "Custom Floating Writing Desks with Leather Tops",
+      "Floor-to-Ceiling Bookshelves with Glass Doors",
+      "Concealed Cable Pass-Through & Power Hubs",
+      "Acoustic Wall Paneling for Quiet Focus",
+      "Under-Shelf LED Task Lighting"
     ],
-    specifications: [
-      { label: "Desk Material", value: "Calibrated BWP Plywood with Anti-Scratch Laminate" },
-      { label: "Hardware", value: "Soft-Close Drawer Slides & Cable Grommets" },
-      { label: "Warranty", value: "10-Year Factory Warranty" }
-    ],
-    estimatedTimeline: "20 - 30 Days",
-    warrantyYears: 10
+    specs: {
+      material: "BWP Plywood, Veneer & Matte Laminates",
+      warranty: "10 Years Structural Warranty",
+      hardware: "Full-Extension Soft-Close Ball Bearing Slides",
+      turnaround: "30 Days Installation"
+    }
   },
-  "office-spaces": {
+  {
     id: "office-spaces",
-    title: "Commercial & Corporate Interiors",
-    category: "Commercial Design",
-    shortDesc: "Impress clients and empower teams with high-performance corporate reception areas, executive cabins, conference rooms, and acoustic wall systems.",
-    heroImage: "/assets/casa-art/factory.jpg",
-    tagline: "Corporate Brand Identity Built With Industrial Precision",
-    description: "End-to-end commercial interior design and modular execution for modern offices, IT hubs, experience centers, and executive cabins in Hyderabad.",
+    title: "Office Spaces",
+    category: "Office Spaces",
+    tagline: "Professional executive office interiors tailored for business success",
+    description: "Transform commercial and home office environments into high-performance executive suites. Featuring custom conference tables, acoustic wall treatments, ergonomic workstation grids, and executive lounge seating.",
+    mainImage: "/assets/casa-art/factory.jpg",
     gallery: [
-      { src: "/assets/casa-art/factory.jpg", title: "Modular Manufacturing", desc: "Precision German CNC production floor at our Kokapet facility." }
+      "/assets/casa-art/factory.jpg",
+      "/assets/casa-art/study-room.jpg",
+      "/assets/casa-art/after-room.jpg",
+      "/assets/casa-art/hero-living.jpg"
     ],
     features: [
-      "Modular workstation cubicles with privacy acoustic screens",
-      "Executive boardrooms with smart AV integrations and cable management",
-      "Custom reception counters with illuminated brand logos"
+      "Executive Desk Suites with Integrated Credenzas",
+      "Acoustic Slat Paneling & Glass Partition Walls",
+      "Conference Room Tables with Integrated AV Connections",
+      "Ergonomic Task Seating & Lounge Chairs",
+      "Custom Reception Desks & Brand Feature Walls"
     ],
-    specifications: [
-      { label: "Scope", value: "Turnkey Design, Modular Workstations, HVAC & Electrical" },
-      { label: "Delivery", value: "Committed Handover Guarantee" },
-      { label: "Warranty", value: "10-Year Factory Warranty" }
-    ],
-    estimatedTimeline: "40 - 60 Days",
-    warrantyYears: 10
+    specs: {
+      material: "Commercial Grade BWP Plywood, Aluminum & Quartz",
+      warranty: "10 Years Commercial Warranty",
+      hardware: "Heavy-Duty Commercial Soft-Close Hardware",
+      turnaround: "45 Days Turnkey Execution"
+    }
   }
-};
+];
