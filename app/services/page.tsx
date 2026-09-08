@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ConsultationModal from "../components/ConsultationModal";
 import FloatingWhatsApp from "../components/FloatingWhatsApp";
@@ -66,20 +65,7 @@ export default function ServicesPage() {
 
   return (
     <div className="services-page-wrapper">
-      <Header onOpenConsultation={() => setConsultationOpen(true)} />
-
       <main>
-        {/* Breadcrumb Bar Right Below Header */}
-        <div className="services-breadcrumb-bar">
-          <div className="container">
-            <div className="services-breadcrumb-links">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <span className="current">Services</span>
-            </div>
-          </div>
-        </div>
-
         {/* Top Full-Width Luxury Hero Banner */}
         <section className="services-hero-banner">
           <img
@@ -127,7 +113,7 @@ export default function ServicesPage() {
             <button
               onClick={() => setConsultationOpen(true)}
               className="btn btn-primary btn-lg"
-              style={{ display: "inline-flex", padding: "16px 36px", fontSize: "16px", fontWeight: "700" }}
+              style={{ display: "inline-flex", padding: "16px 36px", fontSize: "var(--fs-16)", fontWeight: "700" }}
             >
               <span>Book for Free Consultation</span>
             </button>
@@ -136,7 +122,6 @@ export default function ServicesPage() {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
       <ConsultationModal
         isOpen={consultationOpen}
         onClose={() => setConsultationOpen(false)}

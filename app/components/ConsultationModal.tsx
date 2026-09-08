@@ -52,7 +52,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
             <div className="featured-icon featured-icon-brand" style={{ width: "56px", height: "56px", margin: "0 auto 20px" }}>
               <CheckCircleIcon size={28} color="var(--brand-primary)" />
             </div>
-            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "24px", fontWeight: "700", lineHeight: "1.25" }}>
+            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "var(--fs-24)", fontWeight: "700", lineHeight: "1.25" }}>
               Consultation Request Received!
             </h3>
             <p className="text-md" style={{ marginBottom: "24px", color: "rgba(255, 255, 255, 0.7)" }}>
@@ -67,7 +67,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
             <div className="section-eyebrow" style={{ marginBottom: "12px", color: "var(--brand-primary)" }}>
               Free 3D Plan & Site Visit
             </div>
-            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "24px", fontWeight: "700", lineHeight: "1.25" }}>
+            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "var(--fs-24)", fontWeight: "700", lineHeight: "1.25" }}>
               Book an Interior Consultation
             </h3>
             <p className="text-sm" style={{ marginBottom: "24px", color: "rgba(255, 255, 255, 0.7)" }}>
@@ -165,7 +165,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                 <span>Confirm Consultation Booking</span>
               </button>
 
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "12px", fontSize: "14px", color: "var(--text-dark-muted)" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "12px", fontSize: "var(--fs-14)", color: "var(--text-dark-muted)" }}>
                 <LockIcon size={14} color="var(--brand-primary)" />
                 <span>Zero spam. Free 3D plan & site assessment included.</span>
               </div>

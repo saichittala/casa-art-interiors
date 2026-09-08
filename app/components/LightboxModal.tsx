@@ -47,37 +47,53 @@ export default function LightboxModal({
 
   return (
     <div className="lightbox-overlay" onClick={onClose}>
-      <div className="lightbox-container" onClick={(e) => e.stopPropagation()}>
-        {/* Top bar with counter on left, title in middle, close on right */}
-        <div className="lightbox-top-bar">
-          <div className="lightbox-counter">
-            {currentIndex + 1} / {images.length}
-          </div>
-          {title && <div style={{ color: "var(--text-white-pure)", fontWeight: "600", fontSize: "16px" }}>{title}</div>}
-          <button className="lightbox-close-btn" onClick={onClose} aria-label="Close Lightbox">
-            <XCloseIcon size={24} color="#FFFFFF" />
-          </button>
+      {/* Top Right Floating Close (X) Button */}
+      <button className="lightbox-close-circle" onClick={onClose} aria-label="Close Lightbox">
+        <XCloseIcon size={22} color="#FFFFFF" />
+      </button>
+
+      {/* Main Lightbox Stage */}
+      <div className="lightbox-stage-wrapper" onClick={(e) => e.stopPropagation()}>
+        {/* Left Arrow Button */}
+        <button className="lightbox-arrow-btn lightbox-arrow-left" onClick={handlePrev} aria-label="Previous Image">
+          <ChevronLeftIcon size={24} color="#FFFFFF" />
+        </button>
+
+        {/* Center Active Image Box */}
+        <div className="lightbox-main-img-box">
+          <img
+            src={images[currentIndex]}
+            alt={title || `Gallery Image ${currentIndex + 1}`}
+            className="lightbox-main-img"
+          />
         </div>
 
-        {/* Main image stage */}
-        <div className="lightbox-main-stage">
-          <button className="hero-slider-btn" onClick={handlePrev} style={{ position: "absolute", left: "20px", zIndex: 10 }}>
-            <ChevronLeftIcon size={24} color="#FFFFFF" />
-          </button>
-
-          <div className="lightbox-img-wrapper">
-            <img
-              src={images[currentIndex]}
-              alt={title || `Showcase Image ${currentIndex + 1}`}
-              className="lightbox-active-img"
-            />
-          </div>
-
-          <button className="hero-slider-btn" onClick={handleNext} style={{ position: "absolute", right: "20px", zIndex: 10 }}>
-            <ChevronRightIcon size={24} color="#FFFFFF" />
-          </button>
-        </div>
+        {/* Right Arrow Button */}
+        <button className="lightbox-arrow-btn lightbox-arrow-right" onClick={handleNext} aria-label="Next Image">
+          <ChevronRightIcon size={24} color="#FFFFFF" />
+        </button>
       </div>
+
+      {/* Bottom Thumbnail Strip Carousel */}
+      {images.length > 1 && (
+        <div className="lightbox-thumbnails-bar" onClick={(e) => e.stopPropagation()}>
+          <div className="lightbox-thumbnails-scroll">
+            {images.map((imgSrc, idx) => {
+              const isActive = idx === currentIndex;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => onNavigate(idx)}
+                  className={`lightbox-thumb-item ${isActive ? "active" : ""}`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                >
+                  <img src={imgSrc} alt={`Thumbnail ${idx + 1}`} />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

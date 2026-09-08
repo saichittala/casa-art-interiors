@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Link from "next/link";
 import Footer from "../components/Footer";
 import ConsultationModal from "../components/ConsultationModal";
-import FloatingWhatsApp from "../components/FloatingWhatsApp";
 import {
   MapPinIcon,
   PhoneIcon,
@@ -42,8 +41,6 @@ export default function ContactPage() {
 
   return (
     <>
-      <Header onOpenConsultation={() => setConsultationOpen(true)} />
-
       <main>
         {/* Contact Hero & Main Details */}
         <section className="section-py inner-page-hero">
@@ -77,7 +74,7 @@ export default function ContactPage() {
                       <MapPinIcon size={18} color="var(--brand-primary)" />
                     </div>
                     <div>
-                      <div style={{ fontSize: "14.5px", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
+                      <div style={{ fontSize: "var(--fs-14-5)", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
                         Factory & Experience Center Address
                       </div>
                       <p className="text-md" style={{ color: "var(--text-dark-muted)", margin: 0, lineHeight: "1.5" }}>
@@ -94,7 +91,7 @@ export default function ContactPage() {
                       <PhoneIcon size={18} color="var(--brand-primary)" />
                     </div>
                     <div>
-                      <div style={{ fontSize: "14.5px", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
+                      <div style={{ fontSize: "var(--fs-14-5)", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
                         Phone / WhatsApp
                       </div>
                       <a href="tel:+918897969521" className="text-md" style={{ color: "var(--text-dark-primary)", fontWeight: "600", display: "block", lineHeight: "1.3" }}>
@@ -109,7 +106,7 @@ export default function ContactPage() {
                       <MailIcon size={18} color="var(--brand-primary)" />
                     </div>
                     <div>
-                      <div style={{ fontSize: "14.5px", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
+                      <div style={{ fontSize: "var(--fs-14-5)", fontWeight: "600", color: "var(--text-dark-primary)", marginBottom: "8px", lineHeight: "1.3" }}>
                         Email Inquiries
                       </div>
                       <a href="mailto:casaartinteriors@gmail.com" className="text-md" style={{ color: "var(--text-dark-primary)", fontWeight: "600", display: "block", lineHeight: "1.3" }}>
@@ -122,7 +119,7 @@ export default function ContactPage() {
                 <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-none)", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 8px 24px rgba(23, 23, 22, 0.04)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
                     <BuildingIcon size={16} color="var(--brand-primary)" />
-                    <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-dark-primary)" }}>
+                    <span style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>
                       Official Partner: Magna Solitaire
                     </span>
                   </div>
@@ -239,7 +236,7 @@ export default function ContactPage() {
                         <span>Submit Consultation Request</span>
                       </button>
 
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "14px", fontSize: "14px", color: "var(--text-dark-muted)" }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "14px", fontSize: "var(--fs-14)", color: "var(--text-dark-muted)" }}>
                         <LockIcon size={14} color="var(--brand-primary)" />
                         <span>Zero spam. Free 3D plan & site assessment included.</span>
                       </div>
@@ -253,7 +250,6 @@ export default function ContactPage() {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
       <ConsultationModal isOpen={consultationOpen} onClose={() => setConsultationOpen(false)} />
     </>
   );

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ConsultationModal from "../components/ConsultationModal";
 import FloatingWhatsApp from "../components/FloatingWhatsApp";
@@ -23,8 +22,6 @@ export default function AboutPage() {
 
   return (
     <>
-      <Header onOpenConsultation={() => setConsultationOpen(true)} />
-
       <main>
         {/* About Hero (2-Column: Left Content, Right Image) */}
         <section className="section-py inner-page-hero">
@@ -72,10 +69,20 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Brand Philosophy Section */}
+        {/* Brand Philosophy Section (Zig-Zag: Left Image, Right Content) */}
         <section className="section-py" style={{ backgroundColor: "var(--bg-light-secondary)", borderTop: "1px solid var(--border-light-subtle)", borderBottom: "1px solid var(--border-light-subtle)" }}>
           <div className="container">
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
+              {/* Left Column Image */}
+              <div style={{ borderRadius: "var(--radius-none)", overflow: "hidden", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 12px 32px rgba(23, 23, 22, 0.08)" }}>
+                <img
+                  src="/assets/casa-art/dining-interior.jpg"
+                  alt="Casa Art Dining Interior"
+                  style={{ width: "100%", height: "460px", objectFit: "cover" }}
+                />
+              </div>
+
+              {/* Right Column Content */}
               <div>
                 <div className="section-eyebrow">
                   Our Philosophy
@@ -92,22 +99,14 @@ export default function AboutPage() {
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                   <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-none)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
-                    <div style={{ fontSize: "28px", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>200+</div>
-                    <div style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-dark-primary)" }}>Completed Homes</div>
+                    <div style={{ fontSize: "var(--fs-28)", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>200+</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>Completed Homes</div>
                   </div>
                   <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-none)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
-                    <div style={{ fontSize: "28px", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>100%</div>
-                    <div style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-dark-primary)" }}>In-House Factory Build</div>
+                    <div style={{ fontSize: "var(--fs-28)", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>100%</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>In-House Factory Build</div>
                   </div>
                 </div>
-              </div>
-
-              <div style={{ borderRadius: "var(--radius-none)", overflow: "hidden", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 12px 32px rgba(23, 23, 22, 0.08)" }}>
-                <img
-                  src="/assets/casa-art/dining-interior.jpg"
-                  alt="Casa Art Dining Interior"
-                  style={{ width: "100%", height: "460px", objectFit: "cover" }}
-                />
               </div>
             </div>
           </div>
@@ -160,32 +159,42 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Magna Solitaire Partnership Banner */}
-        <section className="cta-dark-section">
-          <div className="container" style={{ textAlign: "center", maxWidth: "840px" }}>
-            <div className="section-eyebrow" style={{ color: "var(--brand-primary)", marginBottom: "16px" }}>
-              Featured Developer Partnership
+        {/* Magna Solitaire Partnership Banner (Ultra-Minimalist High Conversion CTA) */}
+        <section className="cta-dark-section" style={{ padding: "clamp(60px, 8vw, 90px) 0" }}>
+          <div className="container" style={{ textAlign: "center", maxWidth: "720px" }}>
+            <div className="section-eyebrow" style={{ color: "var(--brand-primary)", marginBottom: "14px" }}>
+              Official Interior Partner
             </div>
-            <h2 className="cta-dark-title">
-              Official Interior Partner for Magna Solitaire
+            <h2 className="cta-dark-title" style={{ fontSize: "clamp(var(--fs-32), 4vw, var(--fs-48))", lineHeight: "1.15", marginBottom: "16px" }}>
+              Designing Magna Solitaire Residences
             </h2>
-            <p className="cta-dark-desc">
-              We are proud to be the official interior design partner for Magna Solitaire. Our dedicated teams provide custom turnkey packages tailored specifically to the unique floor plans and luxury standards of the development.
+            <p className="cta-dark-desc" style={{ fontSize: "var(--fs-16)", color: "var(--text-light-secondary)", marginBottom: "28px", lineHeight: "1.6" }}>
+              Tailored turnkey luxury interior packages designed specifically for Magna Solitaire floor plans.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
-              <button onClick={() => setConsultationOpen(true)} className="btn btn-primary btn-xl">
-                <span>Book Consultation for Magna Solitaire</span>
+            <div style={{ display: "flex", justifyContent: "center", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
+              <button
+                onClick={() => setConsultationOpen(true)}
+                className="btn btn-primary btn-lg"
+                style={{ padding: "14px 32px" }}
+              >
+                <span>Get Free Consultation</span>
               </button>
-              <Link href="/contact" className="btn btn-secondary-gray btn-xl" style={{ background: "var(--bg-light-card)", color: "var(--text-dark-primary)" }}>
-                <span>Contact Our Team</span>
-              </Link>
+              <a
+                href="https://wa.me/918897969521?text=Hi%20Casa%20Art%2C%20I%20am%20a%20Magna%20Solitaire%20homeowner%20interested%20in%20interiors."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-whatsapp btn-lg"
+                style={{ padding: "14px 24px", display: "inline-flex", alignItems: "center", gap: "8px" }}
+              >
+                <WhatsAppIcon size={18} />
+                <span>Chat on WhatsApp</span>
+              </a>
             </div>
           </div>
         </section>
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
       <ConsultationModal isOpen={consultationOpen} onClose={() => setConsultationOpen(false)} />
     </>
   );

@@ -28,38 +28,37 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Navigation */}
           <div>
             <h4 className="footer-heading">Navigation</h4>
             <ul className="footer-links-list">
               <li><Link href="/">Home</Link></li>
-              <li><Link href="/#projects">Projects Gallery</Link></li>
-              <li><Link href="/services">Our Services</Link></li>
-              <li><Link href="/#process">4-Step Process</Link></li>
-              <li><Link href="/#factory">Our Factory</Link></li>
-              <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/services">Services</Link></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/#process">Process</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Solutions */}
+          {/* Column 3: Services */}
           <div>
-            <h4 className="footer-heading">Solutions</h4>
+            <h4 className="footer-heading">Services</h4>
             <ul className="footer-links-list">
-              <li><Link href="/services">Modular Kitchens</Link></li>
-              <li><Link href="/services">Luxury Wardrobes</Link></li>
-              <li><Link href="/services">Living & Dining</Link></li>
-              <li><Link href="/services">Master Bedrooms</Link></li>
-              <li><Link href="/services">False Ceiling & Lights</Link></li>
-              <li><Link href="/services">Glass & Metal Works</Link></li>
-              <li><Link href="/services">Commercial Interiors</Link></li>
+              <li><Link href="/services/kitchens">Modular Kitchens</Link></li>
+              <li><Link href="/services/bedrooms">Master Bedrooms</Link></li>
+              <li><Link href="/services/living-rooms">Living Rooms</Link></li>
+              <li><Link href="/services/dining-rooms">Dining Rooms</Link></li>
+              <li><Link href="/services/puja">Puja Rooms</Link></li>
+              <li><Link href="/services/partitions">Partitions &amp; Dividers</Link></li>
+              <li><Link href="/services/study-rooms">Study Rooms</Link></li>
+              <li><Link href="/services/office-spaces">Office &amp; Commercial</Link></li>
             </ul>
           </div>
 
           {/* Column 4: Contact & Factory Details */}
           <div>
             <h4 className="footer-heading">Factory & Office</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", color: "var(--text-light-muted)" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>
               <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
                 <div style={{ marginTop: "2px", flexShrink: 0 }}>
                   <MapPinIcon size={18} color="var(--brand-primary)" />

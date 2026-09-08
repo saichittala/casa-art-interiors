@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ConsultationModal from "./components/ConsultationModal";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
@@ -111,7 +110,7 @@ export default function HomePage() {
     const timer = setInterval(() => {
       setHeroDirection(1);
       setHeroIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
+    }, 8000);
     return () => clearInterval(timer);
   }, [heroIndex]);
 
@@ -204,14 +203,14 @@ export default function HomePage() {
       id: "viswajeet-villa",
       name: "VISWAJEET'S 3 BHK VILLA",
       location: "Nagole, Uppal",
-      image: "/assets/casa-art/modular-kitchen.jpg",
+      image: "/assets/casa-art/viswajeet-villa.jpg",
       category: "kitchen"
     },
     {
       id: "rajasekhar-home",
       name: "RAJASEKHAR CHELLURI'S HOME",
       location: "Hayathnagar",
-      image: "/assets/casa-art/bedroom-suite.jpg",
+      image: "/assets/casa-art/rajasekhar-home.jpg",
       category: "bedroom"
     },
     {
@@ -303,8 +302,6 @@ export default function HomePage() {
 
   return (
     <>
-      <Header onOpenConsultation={() => setConsultationOpen(true)} />
-
       <main id="main-content">
         {/* =================================================================
             1. HERO SECTION (FULL-BLEED CINEMATIC SHOWCASE WITH AUTOMATIC SLIDER)
@@ -374,9 +371,6 @@ export default function HomePage() {
 
           {/* Bottom Right Slider Navigation Controls (20px bottom & 20px right) */}
           <div className="hero-slider-controls">
-            <div className="hero-slider-counter">
-              0{heroIndex + 1} <span style={{ opacity: 0.45 }}>/</span> 0{heroSlides.length}
-            </div>
             <button
               onClick={prevHeroSlide}
               className="hero-slider-btn"
@@ -652,7 +646,7 @@ export default function HomePage() {
                   alt="Finished Interior by Casa Art"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(6, 6, 6, 0.88)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", border: "1px solid var(--brand-border)", borderRadius: "4px" }}>
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(6, 6, 6, 0.88)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "var(--fs-14)", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", border: "1px solid var(--brand-border)", borderRadius: "4px" }}>
                   <SparklesIcon size={14} color="var(--brand-primary)" />
                   <span>PRECISE CNC FINISH</span>
                 </div>
@@ -664,7 +658,7 @@ export default function HomePage() {
                   alt="Casa Art Modular Factory Facility Hyderabad"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "var(--brand-primary)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "14px", fontWeight: "800", display: "inline-flex", alignItems: "center", gap: "6px", borderRadius: "4px" }}>
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "var(--brand-primary)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "var(--fs-14)", fontWeight: "800", display: "inline-flex", alignItems: "center", gap: "6px", borderRadius: "4px" }}>
                   <FactoryIcon size={14} color="var(--text-light-primary)" />
                   <span>KOKAPET FACILITY</span>
                 </div>
@@ -677,24 +671,24 @@ export default function HomePage() {
                 <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
                   <ShieldCheckIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "20px", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Quality</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "15px", lineHeight: "1.6", margin: 0 }}>Millimeter-accurate German CNC machines & zero-joint edge banding.</p>
+                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Quality</h3>
+                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Millimeter-accurate German CNC machines & zero-joint edge banding.</p>
               </div>
 
               <div className="feature-card" style={{ padding: "36px 28px", background: "var(--bg-dark-card)", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", height: "100%" }}>
                 <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
                   <LayersIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "20px", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Consistency</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "15px", lineHeight: "1.6", margin: 0 }}>Uniform calibrated BWP plywood & certified European hardware.</p>
+                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Consistency</h3>
+                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Uniform calibrated BWP plywood & certified European hardware.</p>
               </div>
 
               <div className="feature-card" style={{ padding: "36px 28px", background: "var(--bg-dark-card)", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", height: "100%" }}>
                 <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
                   <CheckCircleIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "20px", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Execution</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "15px", lineHeight: "1.6", margin: 0 }}>Single accountable team from 3D concept to final keys handover.</p>
+                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Execution</h3>
+                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Single accountable team from 3D concept to final keys handover.</p>
               </div>
             </div>
           </div>
@@ -902,47 +896,40 @@ export default function HomePage() {
           <div className="container">
             <div className="cta-dark-grid">
               <div>
-                <div className="section-eyebrow">Start Your Interior Journey</div>
+                <div className="section-eyebrow">Start Your Transformation</div>
 
-                <h2 className="cta-dark-title">
-                  Your Space.<br />
-                  Your Vision.<br />
-                  <span style={{ color: "var(--brand-primary)" }}>Our Expertise.</span>
+                <h2 className="cta-dark-title" style={{ fontSize: "clamp(var(--fs-34), 4.2vw, var(--fs-52))", lineHeight: "1.1", marginBottom: "16px" }}>
+                  Ready to Build Your<br />
+                  <span style={{ color: "var(--brand-primary)" }}>Dream Interior?</span>
                 </h2>
 
-                <p className="cta-dark-desc">
-                  Let's create an interior that feels unmistakably yours. Book a free consultation or visit our factory experience center.
+                <p className="cta-dark-desc" style={{ fontSize: "var(--fs-16)", color: "var(--text-light-secondary)", marginBottom: "28px", maxWidth: "480px", lineHeight: "1.6" }}>
+                  Speak directly with our lead interior architects. Receive a bespoke 3D concept &amp; factory-direct estimate within 24 hours.
                 </p>
 
-                {/* Office & Factory Address Box */}
-                <div style={{ background: "var(--bg-dark-card)", padding: "24px 28px", border: "1px solid var(--brand-border-subtle)", marginBottom: "28px" }}>
-                  <div style={{ fontSize: "13px", color: "var(--brand-primary)", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "10px", display: "flex", alignItems: "center", gap: "8px" }}>
-                    <MapPinIcon size={16} color="var(--brand-primary)" />
-                    <span>OUR NEW OFFICE & FACTORY ADDRESS</span>
-                  </div>
-                  <p style={{ fontSize: "15px", color: "var(--text-light-secondary)", lineHeight: "1.6", margin: 0 }}>
-                    Plot No. 291/E2, Beside Delhivery Warehouse,<br />
-                    Khanapur Village Road, Neopolis-Kokapet, Hyderabad.
-                  </p>
-                </div>
-
-                <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
-                  <a
-                    href="tel:+918897969521"
-                    className="btn btn-primary btn-md"
-                    style={{ gap: "8px" }}
+                <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap", marginBottom: "20px" }}>
+                  <button
+                    onClick={() => setConsultationOpen(true)}
+                    className="btn btn-primary btn-lg"
+                    style={{ padding: "14px 28px" }}
                   >
-                    <PhoneIcon size={18} color="var(--text-light-primary)" />
-                    <span>+91 88979 69521</span>
-                  </a>
+                    <span>Get Free Quote</span>
+                  </button>
                   <a
                     href="https://wa.me/918897969521?text=Hi%20Casa%20Art%2C%20I%20would%20like%20to%20book%20a%20free%20consultation."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-whatsapp btn-md"
+                    className="btn btn-whatsapp btn-lg"
+                    style={{ padding: "14px 24px", display: "inline-flex", alignItems: "center", gap: "8px" }}
                   >
+                    <WhatsAppIcon size={18} />
                     <span>Chat on WhatsApp</span>
                   </a>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "var(--fs-13)", color: "rgba(255, 255, 255, 0.5)" }}>
+                  <PhoneIcon size={14} color="var(--brand-primary)" />
+                  <span>Direct Hotline: <a href="tel:+918897969521" style={{ color: "var(--text-light-primary)", fontWeight: "600", textDecoration: "underline" }}>+91 88979 69521</a> &bull; Neopolis-Kokapet, Hyderabad</span>
                 </div>
               </div>
 
@@ -1038,8 +1025,8 @@ export default function HomePage() {
                 }}>
                   <CompassIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>CUSTOM DESIGNS</div>
-                <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Tailored for you</div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>CUSTOM DESIGNS</div>
+                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Tailored for you</div>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
@@ -1057,8 +1044,8 @@ export default function HomePage() {
                 }}>
                   <DiamondIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>PREMIUM MATERIALS</div>
-                <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Lasting beauty</div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>PREMIUM MATERIALS</div>
+                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Lasting beauty</div>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
@@ -1076,8 +1063,8 @@ export default function HomePage() {
                 }}>
                   <ToolIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>EXPERT TEAM</div>
-                <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Professional installation</div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>EXPERT TEAM</div>
+                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Professional installation</div>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
@@ -1095,8 +1082,8 @@ export default function HomePage() {
                 }}>
                   <ClockIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "14px", marginBottom: "4px", letterSpacing: "0.03em" }}>ON-TIME DELIVERY</div>
-                <div style={{ fontSize: "14px", color: "var(--text-light-muted)" }}>Every single time</div>
+                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>ON-TIME DELIVERY</div>
+                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Every single time</div>
               </div>
             </div>
           </div>
@@ -1104,7 +1091,6 @@ export default function HomePage() {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
       <ConsultationModal
         isOpen={consultationOpen}
         onClose={() => setConsultationOpen(false)}

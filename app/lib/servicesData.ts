@@ -25,8 +25,8 @@ export const servicesData: ServiceDetail[] = [
     mainImage: "/assets/casa-art/bedroom-suite.jpg",
     gallery: [
       "/assets/casa-art/bedroom-suite.jpg",
+      "/assets/casa-art/rajasekhar-home.jpg",
       "/assets/casa-art/luxury-wardrobe.jpg",
-      "/assets/casa-art/hero-living.jpg",
       "/assets/casa-art/study-room.jpg"
     ],
     features: [
@@ -52,9 +52,9 @@ export const servicesData: ServiceDetail[] = [
     mainImage: "/assets/casa-art/modular-kitchen.jpg",
     gallery: [
       "/assets/casa-art/modular-kitchen.jpg",
-      "/assets/casa-art/dining-interior.jpg",
-      "/assets/casa-art/hero-living.jpg",
-      "/assets/casa-art/bedroom-suite.jpg"
+      "/assets/casa-art/kitchen-detail-1.jpg",
+      "/assets/casa-art/kitchen-detail-2.jpg",
+      "/assets/casa-art/viswajeet-villa.jpg"
     ],
     features: [
       "100% Boiling Water Proof (BWP) Marine Plywood Carcass",
@@ -79,9 +79,9 @@ export const servicesData: ServiceDetail[] = [
     mainImage: "/assets/casa-art/hero-living.jpg",
     gallery: [
       "/assets/casa-art/hero-living.jpg",
+      "/assets/casa-art/viswajeet-villa.jpg",
       "/assets/casa-art/after-room.jpg",
-      "/assets/casa-art/dining-interior.jpg",
-      "/assets/casa-art/bedroom-suite.jpg"
+      "/assets/casa-art/dining-interior.jpg"
     ],
     features: [
       "Bespoke Charcoal & Veneer Wall Cladding Paneling",
@@ -106,8 +106,8 @@ export const servicesData: ServiceDetail[] = [
     mainImage: "/assets/casa-art/dining-interior.jpg",
     gallery: [
       "/assets/casa-art/dining-interior.jpg",
+      "/assets/casa-art/kitchen-detail-1.jpg",
       "/assets/casa-art/hero-living.jpg",
-      "/assets/casa-art/modular-kitchen.jpg",
       "/assets/casa-art/after-room.jpg"
     ],
     features: [
@@ -134,8 +134,8 @@ export const servicesData: ServiceDetail[] = [
     gallery: [
       "/assets/casa-art/puja-room.jpg",
       "/assets/casa-art/after-room.jpg",
-      "/assets/casa-art/hero-living.jpg",
-      "/assets/casa-art/bedroom-suite.jpg"
+      "/assets/casa-art/rajasekhar-home.jpg",
+      "/assets/casa-art/hero-living.jpg"
     ],
     features: [
       "Precision CNC Jaali Cutting & Brass Bell Inlays",
@@ -215,8 +215,8 @@ export const servicesData: ServiceDetail[] = [
     gallery: [
       "/assets/casa-art/factory.jpg",
       "/assets/casa-art/study-room.jpg",
-      "/assets/casa-art/after-room.jpg",
-      "/assets/casa-art/hero-living.jpg"
+      "/assets/casa-art/kitchen-detail-2.jpg",
+      "/assets/casa-art/after-room.jpg"
     ],
     features: [
       "Executive Desk Suites with Integrated Credenzas",

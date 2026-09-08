@@ -3,7 +3,6 @@
 import React, { useState, use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ConsultationModal from "../../components/ConsultationModal";
 import LightboxModal from "../../components/LightboxModal";
@@ -41,22 +40,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
 
   return (
     <div className="services-page-wrapper">
-      <Header onOpenConsultation={() => setConsultationOpen(true)} />
-
       <main>
-        {/* Breadcrumb Bar */}
-        <div className="services-breadcrumb-bar">
-          <div className="container">
-            <div className="services-breadcrumb-links">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href="/services">Services</Link>
-              <span>/</span>
-              <span className="current">{service.title}</span>
-            </div>
-          </div>
-        </div>
-
         {/* Hero Banner */}
         <section className="services-hero-banner">
           <img
@@ -137,47 +121,12 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
 
               {/* Description & Feature Specifications Box */}
               <div className="services-description-box" style={{ marginTop: "48px" }}>
-                <h3 style={{ fontSize: "22px", fontWeight: "700", color: "#FFFFFF", marginBottom: "16px" }}>
+                <h3 style={{ fontSize: "var(--fs-22)", fontWeight: "700", color: "#FFFFFF", marginBottom: "16px" }}>
                   {service.tagline}
                 </h3>
-                <p style={{ fontSize: "16px", color: "var(--text-white-secondary)", lineHeight: "1.75", marginBottom: "32px" }}>
+                <p style={{ fontSize: "var(--fs-16)", color: "var(--text-white-secondary)", lineHeight: "1.75", marginBottom: "0px" }}>
                   {service.description}
                 </p>
-
-                {/* Key Features Bullet List */}
-                <div style={{ background: "rgba(255, 255, 255, 0.03)", padding: "32px", borderRadius: "12px", border: "1px solid var(--border-dark-hairline)", textAlign: "left", marginBottom: "40px" }}>
-                  <h4 style={{ fontSize: "18px", fontWeight: "700", color: "var(--brand-primary)", marginBottom: "20px" }}>
-                    Key Architectural Highlights:
-                  </h4>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
-                    {service.features.map((feat, fIdx) => (
-                      <div key={fIdx} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                        <CheckCircleIcon size={20} color="var(--brand-primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
-                        <span style={{ fontSize: "15px", color: "var(--text-white-secondary)", lineHeight: "1.5" }}>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Material & Engineering Specs Grid */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", textAlign: "left" }}>
-                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
-                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Material Grade</div>
-                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.material}</div>
-                  </div>
-                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
-                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Warranty</div>
-                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.warranty}</div>
-                  </div>
-                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
-                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Hardware</div>
-                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.hardware}</div>
-                  </div>
-                  <div style={{ background: "var(--surface-dark-card)", padding: "20px", borderRadius: "8px", border: "1px solid var(--border-dark-medium)" }}>
-                    <div style={{ fontSize: "12px", color: "var(--text-white-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>Timeline</div>
-                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-white-pure)" }}>{service.specs.turnaround}</div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -203,7 +152,6 @@ export default function ServiceDetailPage({ params }: ServiceDetailPageProps) {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
 
       <ConsultationModal
         isOpen={consultationOpen}
