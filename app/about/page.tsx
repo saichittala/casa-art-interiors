@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <p className="text-xl" style={{ color: "var(--text-dark-secondary)", lineHeight: "1.65", marginBottom: "32px" }}>
                   We are a bespoke interior design studio and modular manufacturing house based in Hyderabad, bridging the gap between visionary architecture and flawless factory execution.
                 </p>
-                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
+                <div className="about-hero-actions">
                   <button onClick={() => setConsultationOpen(true)} className="btn btn-primary btn-lg">
                     <span>Book Free Consultation</span>
                   </button>
@@ -167,11 +167,10 @@ export default function AboutPage() {
             <p className="cta-dark-desc" style={{ fontSize: "18px", color: "var(--text-light-secondary)", marginBottom: "28px", lineHeight: "1.6" }}>
               Tailored turnkey luxury interior packages designed specifically for Magna Solitaire floor plans.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
+            <div className="cta-actions" style={{ margin: "0 auto", maxWidth: "440px" }}>
               <button
                 onClick={() => setConsultationOpen(true)}
                 className="btn btn-primary btn-lg"
-                style={{ padding: "14px 32px" }}
               >
                 <span>Get Free Consultation</span>
               </button>
@@ -180,7 +179,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp btn-lg"
-                style={{ padding: "14px 24px", display: "inline-flex", alignItems: "center", gap: "8px" }}
+                style={{ gap: "8px" }}
               >
                 <WhatsAppIcon size={18} />
                 <span>Chat on WhatsApp</span>

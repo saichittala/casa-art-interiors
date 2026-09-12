@@ -11,6 +11,7 @@ import {
   WhatsAppIcon,
   MenuIcon,
   XCloseIcon,
+  ChevronRightIcon,
   ArrowRightIcon
 } from "./Icons";
 
@@ -276,50 +277,45 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                paddingBottom: "20px",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
-                marginBottom: "28px",
+                paddingBottom: "18px",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
+                marginBottom: "8px",
               }}
             >
               <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                 <img
                   src="/assets/logo-white.png"
                   alt="Casa Art Interior Design"
-                  style={{ height: "34px", objectFit: "contain" }}
+                  style={{ height: "32px", objectFit: "contain" }}
                 />
               </Link>
 
-              {/* Close Button using Untitled UI XCloseIcon */}
+              {/* Close Button matching Image 2: Plain X icon */}
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close Mobile Menu"
                 style={{
-                  background: "rgba(255, 255, 255, 0.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.18)",
-                  borderRadius: "50%",
-                  width: "44px",
-                  height: "44px",
+                  background: "transparent",
+                  border: "none",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
                   color: "#FFFFFF",
-                  transition: "background-color 0.2s ease",
+                  padding: "6px",
                 }}
               >
-                <XCloseIcon size={22} color="#FFFFFF" strokeWidth={2} />
+                <XCloseIcon size={24} color="#FFFFFF" strokeWidth={2} />
               </button>
             </div>
 
-            {/* Navigation Links (Staggered Animation with cubic-bezier) */}
+            {/* Navigation Links matching Image 2 layout with ChevronDownIcon and horizontal divider lines */}
             <div
               style={{
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
-                gap: "16px",
-                margin: "auto 0",
+                margin: "4px 0 24px 0",
               }}
             >
               {navLinks.map((link, idx) => {
@@ -327,12 +323,12 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
                 return (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 16 }}
+                    exit={{ opacity: 0, y: 12 }}
                     transition={{
-                      duration: 0.4,
-                      delay: 0.08 + idx * 0.05,
+                      duration: 0.35,
+                      delay: 0.05 + idx * 0.04,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
@@ -343,20 +339,22 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        fontSize: "clamp(26px, 7vw, 36px)",
-                        fontWeight: "700",
-                        letterSpacing: "-0.02em",
+                        fontSize: "clamp(22px, 5.5vw, 28px)",
+                        fontWeight: "600",
+                        fontFamily: "var(--font-heading)",
+                        letterSpacing: "-0.01em",
                         color: isActive ? "var(--brand-primary, #ff6364)" : "#FFFFFF",
                         textDecoration: "none",
-                        padding: "10px 0",
-                        borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+                        padding: "18px 0",
+                        borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
                         transition: "color 0.2s ease",
                       }}
                     >
                       <span>{link.name}</span>
-                      <ArrowRightIcon
-                        size={22}
-                        color={isActive ? "var(--brand-primary, #ff6364)" : "rgba(255, 255, 255, 0.35)"}
+                      <ChevronRightIcon
+                        size={20}
+                        color={isActive ? "var(--brand-primary, #ff6364)" : "#FFFFFF"}
+                        strokeWidth={2}
                       />
                     </Link>
                   </motion.div>

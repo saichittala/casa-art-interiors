@@ -5,6 +5,8 @@
  * ==============================================================================
  */
 
+@import url('https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700,800,900&display=swap');
+
 @import '@fontsource/manrope/300.css';
 @import '@fontsource/manrope/400.css';
 @import '@fontsource/manrope/500.css';
@@ -20,8 +22,8 @@
 @import '@fontsource/inter-tight/800.css';
 
 :root {
-  /* ── 1. TYPOGRAPHY TOKENS (MANROPE HEADING, INTER TIGHT BODY) ── */
-  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* ── 1. TYPOGRAPHY TOKENS (SWITZER HEADING, INTER TIGHT BODY) ── */
+  --font-heading: 'Switzer', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: -apple-system, 'Inter Tight', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font: var(--font-body);
   --font-family: var(--font-body);
@@ -891,14 +893,14 @@ textarea:disabled,
   background: var(--brand-primary) !important;
   color: var(--text-light-primary) !important;
   font-weight: var(--fw-medium) !important;
-  border: 1px solid var(--brand-primary) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   box-shadow: none !important;
   text-shadow: none !important;
 }
 
 .btn-primary:hover {
   background: var(--brand-primary-hover) !important;
-  border-color: var(--brand-primary-hover) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
   color: var(--text-light-primary) !important;
   box-shadow: none !important;
   filter: none !important;
@@ -907,7 +909,7 @@ textarea:disabled,
 
 .btn-primary:active {
   background: var(--brand-primary-active) !important;
-  border-color: var(--brand-primary-active) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
   color: var(--text-light-primary) !important;
   box-shadow: none !important;
   transform: none !important;
@@ -923,30 +925,29 @@ textarea:disabled,
   border: 1px solid var(--border-light-strong) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
   font-weight: var(--fw-medium) !important;
+  transition: border-color 0.2s var(--ease-apple), box-shadow 0.2s var(--ease-apple) !important;
 }
 
 .btn-secondary:hover,
 .btn-secondary-gray:hover {
-  background: #000000 !important;
-  border-color: #000000 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  border-color: rgba(23, 23, 22, 0.45) !important;
+  color: var(--text-dark-primary) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 0 0 0.5px rgba(23, 23, 22, 0.25) !important;
   transform: none !important;
 }
 
 .btn-secondary:hover svg,
 .btn-secondary-gray:hover svg,
-.btn-secondary-hover path,
+.btn-secondary:hover path,
 .btn-secondary-gray:hover path {
-  stroke: #FFFFFF !important;
-  color: #FFFFFF !important;
+  stroke: var(--text-dark-primary) !important;
+  color: var(--text-dark-primary) !important;
 }
 
 .btn-secondary:active,
 .btn-secondary-gray:active {
-  background: #121212 !important;
-  border-color: #121212 !important;
-  color: #FFFFFF !important;
+  border-color: rgba(23, 23, 22, 0.65) !important;
+  color: var(--text-dark-primary) !important;
   transform: none !important;
 }
 
@@ -1699,7 +1700,7 @@ main {
 .site-header .btn-secondary-gray:hover {
   background: rgba(255, 255, 255, 0.20) !important;
   color: var(--bg-light) !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
   box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
 }
 
@@ -1847,10 +1848,9 @@ main {
 }
 
 .hero-slider-btn:hover {
-  background: var(--brand-primary, #e12312);
-  border-color: var(--brand-primary, #e12312);
-  transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(225, 35, 18, 0.4);
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 0 0 0.5px rgba(255, 255, 255, 0.4) !important;
+  transform: scale(1.06);
 }
 
 .hero-slider-btn:active {
@@ -1957,12 +1957,13 @@ main {
   -webkit-backdrop-filter: blur(20px) !important;
   color: var(--text-light-primary) !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  transition: background-color 0.3s var(--ease-apple), border-color 0.3s var(--ease-apple), color 0.3s var(--ease-apple) !important;
+  transition: background-color 0.3s var(--ease-apple), border-color 0.3s var(--ease-apple), border-width 0.3s var(--ease-apple), color 0.3s var(--ease-apple) !important;
 }
 
 .btn-secondary-glass:hover {
   background: rgba(45, 45, 45, 0.85) !important;
-  border-color: rgba(255, 255, 255, 0.40) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.35) !important;
   color: var(--text-light-primary) !important;
 }
 
@@ -2294,8 +2295,8 @@ main {
 }
 
 .featured-services-nav-btn:hover {
-  background: var(--brand-primary);
-  border-color: var(--brand-primary);
+  border-color: rgba(255, 255, 255, 0.50) !important;
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.35) !important;
   color: var(--text-light-primary);
 }
 
@@ -3100,10 +3101,17 @@ main {
 
 .cta-actions {
   display: flex;
-  gap: 14px;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
   margin-bottom: 20px;
+}
+
+.cta-actions .btn {
+  width: 100% !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .cta-contact-line {
@@ -4809,6 +4817,22 @@ main {
   grid-template-columns: 1fr 1fr;
   gap: 48px;
   align-items: center;
+}
+
+.about-hero-actions,
+.contact-action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.about-hero-actions .btn,
+.contact-action-btns .btn {
+  width: 100% !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .about-hero-img-box {

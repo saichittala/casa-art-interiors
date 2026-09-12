@@ -364,7 +364,8 @@ export default function PricingDeliveryModal({
                     }}
                     className="btn btn-primary btn-lg"
                     style={{
-                      padding: "14px 32px",
+                      width: "100%",
+                      justifyContent: "center",
                       background: "var(--brand-primary, #ff6364)",
                       color: "#FFFFFF",
                       boxShadow: "0 4px 20px rgba(255, 99, 100, 0.40)",
@@ -378,7 +379,7 @@ export default function PricingDeliveryModal({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-whatsapp btn-lg"
-                    style={{ padding: "14px 24px", display: "inline-flex", alignItems: "center", gap: "8px" }}
+                    style={{ width: "100%", justifyContent: "center", display: "inline-flex", alignItems: "center", gap: "8px" }}
                   >
                     <WhatsAppIcon size={18} />
                     <span>Get Instant Quote on WhatsApp</span>

@@ -329,7 +329,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Direct Action Buttons */}
-                <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center" }}>
+                <div className="contact-action-btns">
                   <a
                     href="https://maps.google.com/?q=Kokapet+Hyderabad"
                     target="_blank"

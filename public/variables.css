@@ -7,6 +7,8 @@
  * ==============================================================================
  */
 
+@import url('https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700,800,900&display=swap');
+
 @import '@fontsource/manrope/300.css';
 @import '@fontsource/manrope/400.css';
 @import '@fontsource/manrope/500.css';
@@ -22,8 +24,8 @@
 @import '@fontsource/inter-tight/800.css';
 
 :root {
-  /* ── 1. TYPOGRAPHY TOKENS (MANROPE HEADING, INTER TIGHT BODY) ── */
-  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* ── 1. TYPOGRAPHY TOKENS (SWITZER HEADING, INTER TIGHT BODY) ── */
+  --font-heading: 'Switzer', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font: var(--font-body);
   --font-family: var(--font-body);
