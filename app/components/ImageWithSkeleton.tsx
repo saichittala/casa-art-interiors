@@ -31,7 +31,7 @@ export default function ImageWithSkeleton({
 
   const travel = 50 * parallaxSpeed;
   const y = useTransform(scrollYProgress, [0, 1], disableParallax ? [0, 0] : [travel, -travel]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], disableParallax ? [1, 1, 1] : [1.05, 1, 1.05]);
+  const scale = 1;
 
   useEffect(() => {
     if (imgRef.current) {

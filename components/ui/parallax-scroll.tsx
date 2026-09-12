@@ -37,7 +37,7 @@ export const ParallaxImage = ({
     [0, 1],
     direction === "up" ? [travel, -travel] : [-travel, travel]
   );
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1.08]);
+  const scale = 1;
 
   return (
     <div

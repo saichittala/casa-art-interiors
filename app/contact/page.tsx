@@ -281,32 +281,176 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Map / Location Highlight */}
+        {/* Map / Location Highlight (2-Column Left & Right Grid Layout) */}
         <section className="section-py contact-map-section">
           <div className="container">
-            <div className="section-header" style={{ marginBottom: "32px" }}>
-              <div className="section-eyebrow">
-                Visit Us In Person
-              </div>
-              <h2 className="display-md">
-                Experience Center &amp; Manufacturing Plant
-              </h2>
-              <p className="text-lg" style={{ marginTop: "12px" }}>
-                Walk through live room setups, inspect German hardware, and witness custom woodwork being crafted in real-time.
-              </p>
-            </div>
+            <div className="contact-map-grid">
+              {/* Left Column: Details & Actions */}
+              <div className="contact-map-info">
+                <div className="section-eyebrow" style={{ marginBottom: "14px" }}>
+                  Visit Us In Person
+                </div>
+                <h2 className="display-md" style={{ marginBottom: "16px", color: "var(--text-dark-primary)" }}>
+                  Experience Center &amp; Manufacturing Plant
+                </h2>
+                <p className="text-lg" style={{ color: "var(--text-dark-secondary)", lineHeight: "1.6", marginBottom: "28px" }}>
+                  Walk through live room setups, inspect German hardware, and witness custom woodwork being crafted in real-time.
+                </p>
 
-            <div className="contact-map-box">
-              <iframe
-                title="Casa Art Interiors Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.887258936997!2d78.337482!3d17.393245!2m3!1f0f0f0f0!3f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb945037d0c325%3A0xb3ff76c24bc91eb!2sKokapet%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+                {/* Location & Hours Detail Cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", background: "#FFFFFF", padding: "18px 20px", borderRadius: "18px", border: "1px solid var(--border-light-subtle)", boxShadow: "0 4px 16px rgba(0,0,0,0.02)" }}>
+                    <div className="featured-icon featured-icon-brand" style={{ width: "42px", height: "42px", flexShrink: 0, marginTop: "2px" }}>
+                      <MapPinIcon size={20} color="var(--brand-primary)" />
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: "700", fontSize: "15px", color: "var(--text-dark-primary)", marginBottom: "4px" }}>
+                        Factory &amp; Experience Center Address
+                      </div>
+                      <div style={{ fontSize: "14px", color: "var(--text-dark-secondary)", lineHeight: "1.5" }}>
+                        Plot No. 291/E2, Beside Delhivery Warehouse, Khanapur Village Road, Neopolis-Kokapet, Hyderabad, Telangana 500075
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", background: "#FFFFFF", padding: "18px 20px", borderRadius: "18px", border: "1px solid var(--border-light-subtle)", boxShadow: "0 4px 16px rgba(0,0,0,0.02)" }}>
+                    <div className="featured-icon featured-icon-brand" style={{ width: "42px", height: "42px", flexShrink: 0, marginTop: "2px" }}>
+                      <ClockIcon size={20} color="var(--brand-primary)" />
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: "700", fontSize: "15px", color: "var(--text-dark-primary)", marginBottom: "4px" }}>
+                        Visiting Hours &amp; Appointments
+                      </div>
+                      <div style={{ fontSize: "14px", color: "var(--text-dark-secondary)", lineHeight: "1.5" }}>
+                        Monday – Sunday: 10:00 AM – 7:30 PM (Walk-ins &amp; Guided Tours Welcome)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Direct Action Buttons */}
+                <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center" }}>
+                  <a
+                    href="https://maps.google.com/?q=Kokapet+Hyderabad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary btn-md"
+                    style={{ gap: "8px", borderRadius: "9999px" }}
+                  >
+                    <MapPinIcon size={16} />
+                    <span>Open in Maps ↗</span>
+                  </a>
+                  <a
+                    href="tel:+918897969521"
+                    className="btn btn-secondary btn-md"
+                    style={{ gap: "8px", borderRadius: "9999px" }}
+                  >
+                    <PhoneIcon size={16} />
+                    <span>Call +91 88979 69521</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Right Column: Midnight Dark Luxury Map Container */}
+              <div className="contact-map-box">
+                <iframe
+                  title="Casa Art Interiors Location Map"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.887258936997!2d78.337482!3d17.393245!2m3!1f0f0f0f0!3f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb945037d0c325%3A0xb3ff76c24bc91eb!2sKokapet%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="theme-dark"
+                />
+
+                {/* Top-Left "Open in Maps" Pill Button (9999px Radius) */}
+                <a
+                  href="https://maps.google.com/?q=Kokapet+Hyderabad"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    position: "absolute",
+                    top: "16px",
+                    left: "16px",
+                    zIndex: 10,
+                    backgroundColor: "#FFFFFF",
+                    color: "var(--brand-primary, #ff6364)",
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    padding: "10px 20px",
+                    borderRadius: "9999px",
+                    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.25)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <span>Open in Maps</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+
+                {/* Center Sonar Pulse Location Marker */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -100%)",
+                    zIndex: 9,
+                    pointerEvents: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "rgba(6, 6, 6, 0.9)",
+                      color: "#FFFFFF",
+                      backdropFilter: "blur(8px)",
+                      WebkitBackdropFilter: "blur(8px)",
+                      padding: "6px 14px",
+                      borderRadius: "9999px",
+                      fontSize: "11px",
+                      fontWeight: "700",
+                      letterSpacing: "0.02em",
+                      border: "1px solid rgba(255, 99, 100, 0.4)",
+                      boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
+                      marginBottom: "6px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Casa Art Studio &amp; Factory
+                  </div>
+                  <div style={{ position: "relative", width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span
+                      style={{
+                        position: "absolute",
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(255, 99, 100, 0.4)",
+                        animation: "sonarPulse 2s infinite ease-out",
+                      }}
+                    />
+                    <span
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: "var(--brand-primary, #ff6364)",
+                        boxShadow: "0 0 12px var(--brand-primary, #ff6364)",
+                        border: "2px solid #FFFFFF",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

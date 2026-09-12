@@ -125,7 +125,7 @@ export default function ScrollBeforeAfterSection({ onOpenConsultation }: ScrollB
             boxShadow: "0 30px 80px rgba(0,0,0,0.8)",
             cursor: "ew-resize",
             userSelect: "none",
-            touchAction: "none",
+            touchAction: "pan-y",
             border: "1px solid rgba(255, 255, 255, 0.1)",
           }}
         >
@@ -180,34 +180,6 @@ export default function ScrollBeforeAfterSection({ onOpenConsultation }: ScrollB
                 }}
               />
             </div>
-          </div>
-
-          {/* Floating Section Title Overlay */}
-          <div
-            style={{
-              position: "absolute",
-              top: "28px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 20,
-              textAlign: "center",
-              pointerEvents: "none",
-              background: "rgba(6, 6, 6, 0.65)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              padding: "10px 24px",
-              borderRadius: "9999px",
-              border: "1px solid rgba(255, 99, 100, 0.3)",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <SparklesIcon size={16} color="var(--brand-primary, #ff6364)" />
-            <span style={{ fontSize: "14px", fontWeight: "700", color: "#FFFFFF", letterSpacing: "normal" }}>
-              BEFORE & AFTER TRANSFORMATION
-            </span>
           </div>
 
           {/* Badges */}

@@ -30,7 +30,7 @@ export default function AboutPage() {
         {/* About Hero (2-Column: Left Content, Right Image) */}
         <section className="section-py inner-page-hero">
           <div className="container">
-            <div className="about-hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: "48px", alignItems: "center" }}>
+            <div className="about-hero-grid">
               {/* Left Column Content */}
               <div>
                 <div className="section-eyebrow" style={{ marginBottom: "16px" }}>
@@ -54,19 +54,11 @@ export default function AboutPage() {
               </div>
 
               {/* Right Column Image */}
-              <div style={{
-                borderRadius: "0px",
-                overflow: "hidden",
-                height: "100%",
-                minHeight: "440px",
-                maxHeight: "520px",
-                border: "1px solid var(--brand-border-subtle)",
-                boxShadow: "0px 16px 40px rgba(23, 23, 22, 0.08)"
-              }}>
+              <div className="about-hero-img-box">
                 <img
                   src="/assets/casa-art/hero-living.jpg"
                   alt="Casa Art Luxury Interior Design Studio Hyderabad"
-                  style={{ width: "100%", height: "100%", minHeight: "440px", objectFit: "cover" }}
+                  className="about-hero-img"
                 />
               </div>
             </div>
@@ -76,13 +68,13 @@ export default function AboutPage() {
         {/* Brand Philosophy Section (Zig-Zag: Left Image, Right Content) */}
         <section className="section-py" style={{ backgroundColor: "var(--bg-light-secondary)", borderTop: "1px solid var(--border-light-subtle)", borderBottom: "1px solid var(--border-light-subtle)" }}>
           <div className="container">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
+            <div className="about-philosophy-grid">
               {/* Left Column Image */}
-              <div style={{ borderRadius: "var(--radius-brand-18)", overflow: "hidden", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 12px 32px rgba(23, 23, 22, 0.08)" }}>
+              <div className="about-philosophy-img-box">
                 <img
                   src="/assets/casa-art/dining-interior.jpg"
                   alt="Casa Art Dining Interior"
-                  style={{ width: "100%", height: "460px", objectFit: "cover" }}
+                  className="about-philosophy-img"
                 />
               </div>
 
@@ -101,7 +93,7 @@ export default function AboutPage() {
                   By uniting our senior architectural design team with our own dedicated modular manufacturing facility in Neopolis-Kokapet, we provide single-source accountability from initial 3D concept to final keys handover.
                 </p>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                <div className="about-stats-grid">
                   <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-brand-18)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
                     <div style={{ fontSize: "var(--fs-28)", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>200+</div>
                     <div style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>Completed Homes</div>

@@ -75,20 +75,10 @@ export default function ChoiceChips({
             : isActive ? "var(--brand-primary, #ff6364)" : "#374151";
 
           return (
-            <motion.button
+            <button
               key={option.value}
               type="button"
               onClick={() => onChange(option.value)}
-              whileHover={{
-                scale: 1,
-                backgroundColor: bgHover,
-                borderColor: borderHover,
-              }}
-              whileTap={{ scale: 1 }}
-              transition={{
-                duration: 0.35,
-                ease: [0.16, 1, 0.3, 1],
-              }}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -98,34 +88,35 @@ export default function ChoiceChips({
                 padding: "0 16px",
                 borderRadius: "9999px",
                 fontSize: "14px",
-                fontWeight: isActive ? "600" : "400",
+                fontWeight: "600",
                 cursor: "pointer",
-                border: `1px solid ${borderNormal}`,
-                background: bgNormal,
+                border: `1px solid ${isActive ? borderHover : borderNormal}`,
+                background: isActive ? bgActive : bgNormal,
                 color: textNormal,
                 boxShadow: "none",
                 outline: "none",
                 userSelect: "none",
                 boxSizing: "border-box",
                 lineHeight: "1",
+                transition: "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease",
               }}
             >
               <AnimatePresence mode="wait" initial={false}>
                 {isActive && (
                   <motion.span
                     key="check"
-                    initial={{ scale: 0, opacity: 0, width: 0 }}
-                    animate={{ scale: 1, opacity: 1, width: "auto" }}
-                    exit={{ scale: 0, opacity: 0, width: 0 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.5, opacity: 0 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                     style={{ display: "inline-flex", alignItems: "center" }}
                   >
-                    <CheckIcon size={14} color="var(--brand-primary, #ff6364)" strokeWidth={3} />
+                    <CheckIcon size={14} color="var(--brand-primary, #ff6364)" strokeWidth={2.5} />
                   </motion.span>
                 )}
               </AnimatePresence>
               <span>{option.label}</span>
-            </motion.button>
+            </button>
           );
         })}
       </div>

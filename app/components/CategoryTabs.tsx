@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 
 export interface CategoryItem {
@@ -15,18 +15,25 @@ interface CategoryTabsProps {
 }
 
 export default function CategoryTabs({ categories, activeId, activeLabel }: CategoryTabsProps) {
-  const currentLabel = activeLabel || categories.find((c) => c.id === activeId)?.label || activeId;
+  const activeTabRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (activeTabRef.current) {
+      activeTabRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  }, [activeId]);
 
   return (
     <section className="services-tabs-section">
       <div className="container">
-        {/* Non-Scrolling Category Navigation Pills */}
+        {/* Horizontal Scrollable Category Navigation Pills */}
         <div className="services-tabs-bar">
           {categories.map((cat) => {
             const isActive = cat.id === activeId;
             return (
               <Link
                 key={cat.id}
+                ref={isActive ? activeTabRef : null}
                 href={`/services/${cat.id}`}
                 className={`services-tab-btn ${isActive ? "active" : ""}`}
               >
