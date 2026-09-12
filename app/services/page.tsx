@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import ConsultationModal from "../components/ConsultationModal";
 import FloatingWhatsApp from "../components/FloatingWhatsApp";
+import ImageWithSkeleton from "../components/ImageWithSkeleton";
 
 export default function ServicesPage() {
   const [consultationOpen, setConsultationOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
 
   const mosaicImages = [
     { src: "/assets/casa-art/bedroom-suite.jpg", alt: "Luxury Bedroom Design" },
@@ -79,7 +84,7 @@ export default function ServicesPage() {
         {/* Main "Our Services" Section */}
         <section className="services-grid-section">
           <div className="container">
-            <h1 className="display-lg" style={{ color: "#FFFFFF", fontWeight: "700", marginBottom: "48px", letterSpacing: "-0.02em" }}>
+            <h1 className="display-lg services-page-heading">
               Our Services
             </h1>
 
@@ -92,7 +97,7 @@ export default function ServicesPage() {
                   className="service-card-item"
                 >
                   <div className="service-card-img-box">
-                    <img src={service.image} alt={service.title} />
+                    <ImageWithSkeleton src={service.image} alt={service.title} />
                   </div>
                   <h3 className="service-card-title">{service.title}</h3>
                 </Link>
@@ -102,18 +107,17 @@ export default function ServicesPage() {
         </section>
 
         {/* Bottom CTA Section: Book Free Design Session */}
-        <section style={{ padding: "90px 24px 100px", background: "#060606", borderTop: "1px solid rgba(255, 255, 255, 0.08)", textAlign: "center" }}>
-          <div className="container" style={{ maxWidth: "720px", margin: "0 auto" }}>
-            <h2 className="display-md" style={{ color: "#FFFFFF", fontWeight: "700", marginBottom: "16px" }}>
+        <section className="services-cta-banner-section">
+          <div className="services-cta-card">
+            <h2 className="services-cta-title">
               Book Free Design Session
             </h2>
-            <p className="text-md" style={{ color: "rgba(255, 255, 255, 0.7)", marginBottom: "32px", lineHeight: "1.6" }}>
-              Get expert guidance and personalized design ideas for your space with Casa Art Interiors.
+            <p className="services-cta-desc">
+              Get expert guidance and personalized design ideas<br />for your space with Casa Art Interiors.
             </p>
             <button
               onClick={() => setConsultationOpen(true)}
-              className="btn btn-primary btn-lg"
-              style={{ display: "inline-flex", padding: "16px 36px", fontSize: "var(--fs-16)", fontWeight: "700" }}
+              className="btn btn-primary btn-lg services-cta-btn"
             >
               <span>Book for Free Consultation</span>
             </button>

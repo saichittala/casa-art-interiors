@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import ConsultationModal from "../components/ConsultationModal";
@@ -19,6 +19,10 @@ import {
 
 export default function AboutPage() {
   const [consultationOpen, setConsultationOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
 
   return (
     <>
@@ -74,7 +78,7 @@ export default function AboutPage() {
           <div className="container">
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
               {/* Left Column Image */}
-              <div style={{ borderRadius: "var(--radius-none)", overflow: "hidden", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 12px 32px rgba(23, 23, 22, 0.08)" }}>
+              <div style={{ borderRadius: "var(--radius-brand-18)", overflow: "hidden", border: "1px solid var(--brand-border-subtle)", boxShadow: "0px 12px 32px rgba(23, 23, 22, 0.08)" }}>
                 <img
                   src="/assets/casa-art/dining-interior.jpg"
                   alt="Casa Art Dining Interior"
@@ -98,11 +102,11 @@ export default function AboutPage() {
                 </p>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                  <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-none)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
+                  <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-brand-18)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
                     <div style={{ fontSize: "var(--fs-28)", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>200+</div>
                     <div style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>Completed Homes</div>
                   </div>
-                  <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-none)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
+                  <div style={{ padding: "18px", background: "var(--bg-light)", borderRadius: "var(--radius-brand-18)", border: "1px solid var(--border-light-subtle)", transition: "background-color var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple)" }}>
                     <div style={{ fontSize: "var(--fs-28)", fontWeight: "800", color: "var(--brand-primary)", marginBottom: "8px" }}>100%</div>
                     <div style={{ fontSize: "var(--fs-14)", fontWeight: "700", color: "var(--text-dark-primary)" }}>In-House Factory Build</div>
                   </div>
@@ -165,10 +169,10 @@ export default function AboutPage() {
             <div className="section-eyebrow" style={{ color: "var(--brand-primary)", marginBottom: "14px" }}>
               Official Interior Partner
             </div>
-            <h2 className="cta-dark-title" style={{ fontSize: "clamp(var(--fs-32), 4vw, var(--fs-48))", lineHeight: "1.15", marginBottom: "16px" }}>
+            <h2 className="cta-dark-title" style={{ fontSize: "24px", fontWeight: "700", lineHeight: "1.25", marginBottom: "16px" }}>
               Designing Magna Solitaire Residences
             </h2>
-            <p className="cta-dark-desc" style={{ fontSize: "var(--fs-16)", color: "var(--text-light-secondary)", marginBottom: "28px", lineHeight: "1.6" }}>
+            <p className="cta-dark-desc" style={{ fontSize: "18px", color: "var(--text-light-secondary)", marginBottom: "28px", lineHeight: "1.6" }}>
               Tailored turnkey luxury interior packages designed specifically for Magna Solitaire floor plans.
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
@@ -180,7 +184,7 @@ export default function AboutPage() {
                 <span>Get Free Consultation</span>
               </button>
               <a
-                href="https://wa.me/918897969521?text=Hi%20Casa%20Art%2C%20I%20am%20a%20Magna%20Solitaire%20homeowner%20interested%20in%20interiors."
+                href={`https://wa.me/918897969521?text=${encodeURIComponent("Hi Casa Art Interiors! 👋\nI’d love to transform my space.\n\nCan you help me with a quote + next steps?")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-whatsapp btn-lg"

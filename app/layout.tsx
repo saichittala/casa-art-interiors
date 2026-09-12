@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Public_Sans } from "next/font/google";
+import "@fontsource/manrope/300.css";
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/500.css";
+import "@fontsource/manrope/600.css";
+import "@fontsource/manrope/700.css";
+import "@fontsource/manrope/800.css";
 import "./globals.css";
-
-const publicSans = Public_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-public-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Casa Art Interiors | Luxury Interior Design & In-House Modular Factory Hyderabad",
@@ -53,6 +51,7 @@ export const metadata: Metadata = {
 import ScrollRevealProvider from "./components/ScrollRevealProvider";
 import Header from "./components/Header";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import TimedLeadModal from "./components/TimedLeadModal";
 
 export default function RootLayout({
   children
@@ -60,20 +59,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={publicSans.variable} suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={`${publicSans.className} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body className="antialiased">
         <ScrollRevealProvider>
           <Header />
           {children}
           <FloatingWhatsApp />
+          <TimedLeadModal />
         </ScrollRevealProvider>
       </body>
     </html>

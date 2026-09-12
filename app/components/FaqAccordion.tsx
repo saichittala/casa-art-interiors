@@ -80,7 +80,7 @@ export default function FaqAccordion() {
                   justifyContent: "center"
                 }}
               >
-                <ChevronDownIcon size={16} color="var(--brand-primary)" />
+                <ChevronDownIcon size={16} color="var(--text-dark-primary)" />
               </span>
             </button>
             <div className="faq-answer-wrapper">

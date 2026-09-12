@@ -5,10 +5,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "./components/Footer";
 import ConsultationModal from "./components/ConsultationModal";
+import PricingDeliveryModal from "./components/PricingDeliveryModal";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
-import BeforeAfterSlider from "./components/BeforeAfterSlider";
+import ScrollBeforeAfterSection from "./components/ScrollBeforeAfterSection";
 import FaqAccordion from "./components/FaqAccordion";
 import ImageWithSkeleton from "./components/ImageWithSkeleton";
+import ChoiceChips, { ChoiceOption } from "./components/ui/ChoiceChips";
+import { submitLeadToGoogleSheet, openWhatsAppLeadChat } from "./lib/leadSubmission";
+import { ParallaxScroll, ParallaxImage } from "./components/ui/parallax-scroll";
 import {
   FactoryIcon,
   MapPinIcon,
@@ -40,6 +44,18 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "./components/Icons";
+
+const parallaxGalleryImages = [
+  "/assets/casa-art/bedroom-suite.jpg",
+  "/assets/casa-art/dining-interior.jpg",
+  "/assets/casa-art/modular-kitchen.jpg",
+  "/assets/casa-art/hero-living.jpg",
+  "/assets/casa-art/puja-room.jpg",
+  "/assets/casa-art/study-room.jpg",
+  "/assets/casa-art/after-room.jpg",
+  "/assets/casa-art/factory.jpg",
+  "/assets/casa-art/dining-interior.jpg",
+];
 
 const heroSlides = [
   {
@@ -88,9 +104,35 @@ const heroSlideVariants = {
   })
 };
 
+const HOME_PROPERTY_OPTIONS: ChoiceOption[] = [
+  { value: "Magna Solitaire Apartment", label: "Magna Solitaire" },
+  { value: "3 BHK Apartment", label: "3 BHK" },
+  { value: "4 BHK / Villa", label: "4 BHK / Villa" },
+  { value: "Commercial Office", label: "Commercial" },
+];
+
+const HOME_BUDGET_OPTIONS: ChoiceOption[] = [
+  { value: "₹10L - ₹20L", label: "₹10L - ₹20L" },
+  { value: "₹20L - ₹35L", label: "₹20L - ₹35L" },
+  { value: "₹35L - ₹50L", label: "₹35L - ₹50L" },
+  { value: "₹50L+", label: "₹50L+ Luxury" },
+];
+
 export default function HomePage() {
   const [consultationOpen, setConsultationOpen] = useState(false);
+  const [pricingModalOpen, setPricingModalOpen] = useState(false);
   const [servicesScrollProgress, setServicesScrollProgress] = useState(25);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [homeForm, setHomeForm] = useState({
+    name: "",
+    phone: "",
+    propertyType: "",
+    budget: "",
+    location: "",
+    timeToStart: "",
+  });
+  const [homeFormSubmitting, setHomeFormSubmitting] = useState(false);
+  const [homeFormSubmitted, setHomeFormSubmitted] = useState(false);
   const servicesSliderRef = useRef<HTMLDivElement>(null);
 
   const [heroIndex, setHeroIndex] = useState(0);
@@ -308,7 +350,7 @@ export default function HomePage() {
             ================================================================= */}
         <section className="hero-cinematic-section">
           {/* Background Image Layer with Framer Motion Slide Animation */}
-          <div className="hero-bg-layer" style={{ overflow: "hidden" }}>
+          <div className="hero-bg-layer">
             <AnimatePresence initial={false} custom={heroDirection}>
               <motion.div
                 key={heroIndex}
@@ -321,7 +363,7 @@ export default function HomePage() {
                   duration: 1.1,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+                className="hero-slide-frame"
               >
                 <img
                   src={heroSlides[heroIndex].image}
@@ -422,10 +464,12 @@ export default function HomePage() {
               <div className="who-we-are-visuals">
                 {/* Main Factory Backdrop Card */}
                 <div className="who-we-are-factory-card">
-                  <img
+                  <ParallaxImage
                     src="/assets/casa-art/factory.jpg"
                     alt="Casa Art Modular Manufacturing Facility Kokapet Hyderabad"
                     className="who-we-are-factory-img"
+                    speed={0.3}
+                    direction="up"
                   />
                   <div className="who-we-are-factory-tag">
                     OUR FACTORY
@@ -434,10 +478,12 @@ export default function HomePage() {
 
                 {/* Overlaid Finished Showroom / Residence Card */}
                 <div className="who-we-are-showroom-card">
-                  <img
+                  <ParallaxImage
                     src="/assets/casa-art/bedroom-suite.jpg"
                     alt="Casa Art Luxury Interior Showroom Execution"
                     className="who-we-are-showroom-img"
+                    speed={0.3}
+                    direction="down"
                   />
                   <div className="who-we-are-showroom-tag">
                     OUR SHOWROOM
@@ -525,7 +571,7 @@ export default function HomePage() {
                 Lowest Prices and Guaranteed Handover in Hyderabad
               </div>
               <button
-                onClick={() => setConsultationOpen(true)}
+                onClick={() => setPricingModalOpen(true)}
                 className="btn btn-primary btn-md"
               >
                 <span>Click to know more</span>
@@ -605,13 +651,13 @@ export default function HomePage() {
             ================================================================= */}
         <section id="projects" className="projects-section">
           <div className="container">
-            <div className="section-header" style={{ marginBottom: "clamp(48px, 5vw, 64px)" }}>
+            <div className="section-header section-header--left section-header--mb">
               <h2 className="projects-section-title">Latest Projects</h2>
             </div>
 
             {/* Projects Grid */}
             <div className="projects-cards-grid">
-              {projects.map((project) => (
+              {(showAllProjects ? projects : projects.slice(0, 4)).map((project) => (
                 <div key={project.id} className="project-card-item">
                   <div className="project-card-img-wrapper">
                     <ImageWithSkeleton src={project.image} alt={project.name} />
@@ -623,6 +669,19 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+
+            {/* View All Projects / Show Less Button */}
+            {projects.length > 4 && (
+              <div className="projects-cta-wrap">
+                <button
+                  type="button"
+                  onClick={() => setShowAllProjects(!showAllProjects)}
+                  className="btn btn-secondary btn-lg"
+                >
+                  {showAllProjects ? "Show Less Projects ↑" : "View All Projects →"}
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -631,7 +690,7 @@ export default function HomePage() {
             ================================================================= */}
         <section id="factory" className="cta-dark-section">
           <div className="container">
-            <div className="section-header" style={{ marginBottom: "clamp(48px, 5vw, 64px)", textAlign: "left", marginLeft: 0, maxWidth: "100%" }}>
+            <div className="section-header section-header--left section-header--mb">
               <div className="section-eyebrow">The Big Differentiator</div>
               <h2 className="cta-dark-title" style={{ marginBottom: 0 }}>
                 Designed by Us. Built by Us.
@@ -640,25 +699,27 @@ export default function HomePage() {
 
             {/* Dual Images Grid */}
             <div className="differentiator-images-grid">
-              <div style={{ overflow: "hidden", border: "1px solid var(--brand-border-subtle)", position: "relative", borderRadius: "6px", height: "clamp(280px, 30vw, 380px)", background: "#121212" }}>
-                <img
+              <div className="differentiator-image-card">
+                <ParallaxImage
                   src="/assets/casa-art/modular-kitchen.jpg"
                   alt="Finished Interior by Casa Art"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+                  speed={0.25}
+                  direction="up"
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(6, 6, 6, 0.88)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "var(--fs-14)", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", border: "1px solid var(--brand-border)", borderRadius: "4px" }}>
+                <div className="differentiator-card-badge differentiator-card-badge--dark">
                   <SparklesIcon size={14} color="var(--brand-primary)" />
                   <span>PRECISE CNC FINISH</span>
                 </div>
               </div>
 
-              <div style={{ overflow: "hidden", border: "1px solid var(--brand-border-subtle)", position: "relative", borderRadius: "6px", height: "clamp(280px, 30vw, 380px)", background: "#121212" }}>
-                <img
+              <div className="differentiator-image-card">
+                <ParallaxImage
                   src="/assets/casa-art/factory.jpg"
                   alt="Casa Art Modular Factory Facility Hyderabad"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+                  speed={0.25}
+                  direction="down"
                 />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "var(--brand-primary)", color: "var(--text-light-primary)", padding: "6px 14px", fontSize: "var(--fs-14)", fontWeight: "800", display: "inline-flex", alignItems: "center", gap: "6px", borderRadius: "4px" }}>
+                <div className="differentiator-card-badge differentiator-card-badge--brand">
                   <FactoryIcon size={14} color="var(--text-light-primary)" />
                   <span>KOKAPET FACILITY</span>
                 </div>
@@ -667,59 +728,44 @@ export default function HomePage() {
 
             {/* 3 Pillars */}
             <div className="differentiator-pillars-grid">
-              <div className="feature-card" style={{ padding: "36px 28px", background: "var(--bg-dark-card)", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", height: "100%" }}>
-                <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
+              <div className="pillar-card">
+                <div className="pillar-icon-box">
                   <ShieldCheckIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Quality</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Millimeter-accurate German CNC machines & zero-joint edge banding.</p>
+                <h3 className="pillar-card-title">Better Quality</h3>
+                <p className="pillar-card-desc">Millimeter-accurate German CNC machines &amp; zero-joint edge banding.</p>
               </div>
 
-              <div className="feature-card" style={{ padding: "36px 28px", background: "var(--bg-dark-card)", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", height: "100%" }}>
-                <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
+              <div className="pillar-card">
+                <div className="pillar-icon-box">
                   <LayersIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Consistency</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Uniform calibrated BWP plywood & certified European hardware.</p>
+                <h3 className="pillar-card-title">Better Consistency</h3>
+                <p className="pillar-card-desc">Uniform calibrated BWP plywood &amp; certified European hardware.</p>
               </div>
 
-              <div className="feature-card" style={{ padding: "36px 28px", background: "var(--bg-dark-card)", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", height: "100%" }}>
-                <div style={{ width: "52px", height: "52px", background: "var(--brand-tint-15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", border: "none", flexShrink: 0 }}>
+              <div className="pillar-card">
+                <div className="pillar-icon-box">
                   <CheckCircleIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <h3 style={{ color: "var(--text-light-primary)", fontWeight: "700", fontSize: "var(--fs-20)", lineHeight: "1.3", marginBottom: "12px", fontFamily: "var(--font-heading)" }}>Better Execution</h3>
-                <p style={{ color: "var(--text-light-secondary)", fontSize: "var(--fs-15)", lineHeight: "1.6", margin: 0 }}>Single accountable team from 3D concept to final keys handover.</p>
+                <h3 className="pillar-card-title">Better Execution</h3>
+                <p className="pillar-card-desc">Single accountable team from 3D concept to final keys handover.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* =================================================================
-            6. BEFORE / AFTER TRANSFORMATION
+            6. BEFORE / AFTER TRANSFORMATION (Scroll-Driven Fullscreen Expansion)
             ================================================================= */}
-        <section className="section-py">
-          <div className="container">
-            <div className="section-header">
-              <div className="section-eyebrow">The Transformation</div>
-              <h2 className="display-md">From Empty Space to Casa Art</h2>
-            </div>
-
-            <BeforeAfterSlider />
-
-            <div style={{ textAlign: "center", marginTop: "36px" }}>
-              <button onClick={() => setConsultationOpen(true)} className="btn btn-primary btn-lg">
-                <span>Transform Your Space Today</span>
-              </button>
-            </div>
-          </div>
-        </section>
+        <ScrollBeforeAfterSection onOpenConsultation={() => setConsultationOpen(true)} />
 
         {/* =================================================================
             7. OUR 4-STEP PROCESS
             ================================================================= */}
         <section id="process" className="section-py">
           <div className="container">
-            <div className="section-header" style={{ marginBottom: "clamp(48px, 5vw, 64px)", textAlign: "left", marginLeft: 0, maxWidth: "100%" }}>
+            <div className="section-header section-header--left section-header--mb">
               <div className="section-eyebrow">Our Process</div>
               <h2 className="display-md">From Idea to Handover</h2>
             </div>
@@ -773,7 +819,7 @@ export default function HomePage() {
             ================================================================= */}
         <section className="section-py">
           <div className="container">
-            <div className="section-header" style={{ marginBottom: "clamp(48px, 5vw, 64px)", textAlign: "left", marginLeft: 0, maxWidth: "100%" }}>
+            <div className="section-header section-header--left section-header--mb">
               <div className="section-eyebrow">What Our Clients Say</div>
               <h2 className="display-md">Verified Homeowner Stories</h2>
             </div>
@@ -898,107 +944,153 @@ export default function HomePage() {
               <div>
                 <div className="section-eyebrow">Start Your Transformation</div>
 
-                <h2 className="cta-dark-title" style={{ fontSize: "clamp(var(--fs-34), 4.2vw, var(--fs-52))", lineHeight: "1.1", marginBottom: "16px" }}>
+                <h2 className="cta-hero-title">
                   Ready to Build Your<br />
-                  <span style={{ color: "var(--brand-primary)" }}>Dream Interior?</span>
+                  <span className="cta-hero-title-accent">Dream Interior?</span>
                 </h2>
 
-                <p className="cta-dark-desc" style={{ fontSize: "var(--fs-16)", color: "var(--text-light-secondary)", marginBottom: "28px", maxWidth: "480px", lineHeight: "1.6" }}>
+                <p className="cta-hero-desc">
                   Speak directly with our lead interior architects. Receive a bespoke 3D concept &amp; factory-direct estimate within 24 hours.
                 </p>
 
-                <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap", marginBottom: "20px" }}>
+                <div className="cta-actions">
                   <button
                     onClick={() => setConsultationOpen(true)}
                     className="btn btn-primary btn-lg"
-                    style={{ padding: "14px 28px" }}
                   >
                     <span>Get Free Quote</span>
                   </button>
                   <a
-                    href="https://wa.me/918897969521?text=Hi%20Casa%20Art%2C%20I%20would%20like%20to%20book%20a%20free%20consultation."
+                    href={`https://wa.me/918897969521?text=${encodeURIComponent("Hi Casa Art Interiors! 👋\nI’d love to transform my space.\n\nCan you help me with a quote + next steps?")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-whatsapp btn-lg"
-                    style={{ padding: "14px 24px", display: "inline-flex", alignItems: "center", gap: "8px" }}
                   >
                     <WhatsAppIcon size={18} />
                     <span>Chat on WhatsApp</span>
                   </a>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "var(--fs-13)", color: "rgba(255, 255, 255, 0.5)" }}>
+                <div className="cta-contact-line">
                   <PhoneIcon size={14} color="var(--brand-primary)" />
-                  <span>Direct Hotline: <a href="tel:+918897969521" style={{ color: "var(--text-light-primary)", fontWeight: "600", textDecoration: "underline" }}>+91 88979 69521</a> &bull; Neopolis-Kokapet, Hyderabad</span>
+                  <span>Direct Hotline: <a href="tel:+918897969521" className="cta-contact-link">+91 88979 69521</a> &bull; Neopolis-Kokapet, Hyderabad</span>
                 </div>
               </div>
 
               {/* Instant Booking Form Card */}
-              <div style={{ background: "var(--bg-dark-card)", padding: "36px", border: "1px solid var(--brand-border-subtle)", boxShadow: "var(--shadow-card-dark)", color: "var(--text-light-primary)" }}>
-                <h3 className="display-xs" style={{ marginBottom: "6px", color: "var(--text-light-primary)" }}>
+              <div className="cta-form-card">
+                <h3 className="cta-form-card-title">
                   Book a Free Consultation
                 </h3>
-                <p className="text-sm" style={{ marginBottom: "20px", color: "var(--text-light-secondary)" }}>
+                <p className="cta-form-card-subtitle">
                   Get a personalized 3D design concept and exact factory-direct estimate.
                 </p>
 
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setConsultationOpen(true);
-                  }}
-                >
-                  <div className="form-group">
-                    <label className="form-label">Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Suresh Varma"
-                      className="form-input"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Phone Number (WhatsApp)</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="e.g. 9876543210"
-                      className="form-input"
-                    />
-                  </div>
-
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">Property Type</label>
-                      <select className="form-select">
-                        <option>Magna Solitaire</option>
-                        <option>3 BHK Apartment</option>
-                        <option>4 BHK Apartment</option>
-                        <option>Luxury Villa</option>
-                        <option>Commercial</option>
-                      </select>
+                {homeFormSubmitted ? (
+                  <div className="form-success-state">
+                    <div className="form-success-icon featured-icon featured-icon-brand">
+                      <CheckCircleIcon size={28} color="var(--brand-primary, #ff6364)" />
                     </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Budget Range</label>
-                      <select className="form-select">
-                        <option>₹10L - ₹20L</option>
-                        <option>₹20L - ₹35L</option>
-                        <option>₹35L - ₹50L</option>
-                        <option>₹50L+ Luxury</option>
-                      </select>
-                    </div>
+                    <h4 className="form-success-title">
+                      Consultation Requested!
+                    </h4>
+                    <p className="form-success-desc">
+                      Our interior architect will get in touch shortly. Opening WhatsApp chat...
+                    </p>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setHomeFormSubmitted(false)}>
+                      Book Another
+                    </button>
                   </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-lg"
-                    style={{ width: "100%", marginTop: "8px" }}
+                ) : (
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const cleanPhone = homeForm.phone.trim();
+                      const formattedPhone = cleanPhone.startsWith("+91") ? cleanPhone : `+91 ${cleanPhone}`;
+                      setHomeFormSubmitting(true);
+                      const payload = {
+                        name: homeForm.name || "Client",
+                        phone: formattedPhone,
+                        propertyType: homeForm.propertyType,
+                        location: homeForm.location || "Hyderabad",
+                        budget: homeForm.budget,
+                        timeToStart: homeForm.timeToStart,
+                        source: "Homepage Inline Consultation Form",
+                      };
+                      await submitLeadToGoogleSheet(payload);
+                      setHomeFormSubmitting(false);
+                      setHomeFormSubmitted(true);
+                      setTimeout(() => {
+                        openWhatsAppLeadChat(payload);
+                      }, 800);
+                    }}
                   >
-                    <span>Request Free Consultation</span>
-                  </button>
-                </form>
+                    <div className="form-group" style={{ marginBottom: "14px" }}>
+                      <label className="form-label">Full Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Suresh Varma"
+                        className="form-input"
+                        value={homeForm.name}
+                        onChange={(e) => setHomeForm({ ...homeForm, name: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: "14px" }}>
+                      <label className="form-label">Phone Number (WhatsApp) *</label>
+                      <div className="phone-input-group">
+                        <span className="phone-prefix">+91</span>
+                        <span className="phone-separator" />
+                        <input
+                          type="tel"
+                          required
+                          placeholder="98765 43210"
+                          className="phone-input"
+                          value={homeForm.phone}
+                          onChange={(e) => setHomeForm({ ...homeForm, phone: e.target.value })}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: "16px" }}>
+                      <label className="form-label">Site / Community Location *</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Magna Solitaire, Kokapet"
+                        className="form-input"
+                        value={homeForm.location}
+                        onChange={(e) => setHomeForm({ ...homeForm, location: e.target.value })}
+                      />
+                    </div>
+
+                    {/* Directly clickable luxury Choice Chips */}
+                    <ChoiceChips
+                      label="Property Type"
+                      options={HOME_PROPERTY_OPTIONS}
+                      selectedValue={homeForm.propertyType}
+                      onChange={(val) => setHomeForm({ ...homeForm, propertyType: val })}
+                      variant="dark"
+                    />
+
+                    <ChoiceChips
+                      label="Estimated Budget Range"
+                      options={HOME_BUDGET_OPTIONS}
+                      selectedValue={homeForm.budget}
+                      onChange={(val) => setHomeForm({ ...homeForm, budget: val })}
+                      variant="dark"
+                    />
+
+                    <button
+                      type="submit"
+                      disabled={homeFormSubmitting}
+                      className="btn btn-primary btn-lg"
+                      style={{ width: "100%", marginTop: "8px" }}
+                    >
+                      <span>{homeFormSubmitting ? "Submitting..." : "Request Free Consultation"}</span>
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -1007,83 +1099,39 @@ export default function HomePage() {
         {/* =================================================================
             12. BOTTOM VALUE PROPS STRIP (Deep Charcoal #060606)
             ================================================================= */}
-        <section style={{ background: "var(--bg-dark)", color: "var(--text-light-secondary)", padding: "52px 0", borderTop: "1px solid var(--border-dark-hairline)" }}>
+        <section className="value-strip-section">
           <div className="container">
             <div className="guarantee-badges-grid">
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(166, 83, 63, 0.10)",
-                  border: "1px solid rgba(166, 83, 63, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "14px",
-                  color: "var(--brand-primary)"
-                }}>
+              <div className="value-badge">
+                <div className="value-badge-icon">
                   <CompassIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>CUSTOM DESIGNS</div>
-                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Tailored for you</div>
+                <div className="value-badge-title">Custom Designs</div>
+                <div className="value-badge-desc">Tailored for you</div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(166, 83, 63, 0.10)",
-                  border: "1px solid rgba(166, 83, 63, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "14px",
-                  color: "var(--brand-primary)"
-                }}>
+              <div className="value-badge">
+                <div className="value-badge-icon">
                   <DiamondIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>PREMIUM MATERIALS</div>
-                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Lasting beauty</div>
+                <div className="value-badge-title">Premium Materials</div>
+                <div className="value-badge-desc">Lasting beauty</div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(166, 83, 63, 0.10)",
-                  border: "1px solid rgba(166, 83, 63, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "14px",
-                  color: "var(--brand-primary)"
-                }}>
+              <div className="value-badge">
+                <div className="value-badge-icon">
                   <ToolIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>EXPERT TEAM</div>
-                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Professional installation</div>
+                <div className="value-badge-title">Expert Team</div>
+                <div className="value-badge-desc">Professional installation</div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                <div style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(166, 83, 63, 0.10)",
-                  border: "1px solid rgba(166, 83, 63, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "14px",
-                  color: "var(--brand-primary)"
-                }}>
+              <div className="value-badge">
+                <div className="value-badge-icon">
                   <ClockIcon size={24} color="var(--brand-primary)" />
                 </div>
-                <div style={{ color: "var(--brand-primary)", fontWeight: "700", fontSize: "var(--fs-14)", marginBottom: "4px", letterSpacing: "0.03em" }}>ON-TIME DELIVERY</div>
-                <div style={{ fontSize: "var(--fs-14)", color: "var(--text-light-muted)" }}>Every single time</div>
+                <div className="value-badge-title">On-Time Delivery</div>
+                <div className="value-badge-desc">Every single time</div>
               </div>
             </div>
           </div>
@@ -1094,6 +1142,11 @@ export default function HomePage() {
       <ConsultationModal
         isOpen={consultationOpen}
         onClose={() => setConsultationOpen(false)}
+      />
+      <PricingDeliveryModal
+        isOpen={pricingModalOpen}
+        onClose={() => setPricingModalOpen(false)}
+        onBookConsultation={() => setConsultationOpen(true)}
       />
     </>
   );

@@ -149,23 +149,23 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
       <div className={`header-wrapper ${isScrolled ? "is-scrolled" : ""} ${innerPageClass}`}>
         {/* Top Luxury Announcement Bar */}
         <div className={`top-announcement-bar ${isScrolled ? "collapsed" : ""} ${innerPageClass}`}>
-          <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px", fontSize: "14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }}>
               <SparklesIcon size={14} color="var(--brand-primary)" />
-              <span>Official Interior Design Partner: <strong style={{ color: "var(--brand-primary)" }}>Magna Solitaire</strong></span>
+              <span style={{ fontSize: "14px" }}>Official Interior Design Partner: <strong style={{ color: "var(--brand-primary)", fontSize: "14px" }}>Magna Solitaire</strong></span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-              <span style={{ display: "none", alignItems: "center", gap: "6px" }} className="desktop-only-flex">
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px" }}>
+              <span style={{ display: "none", alignItems: "center", gap: "6px", fontSize: "14px" }} className="desktop-only-flex">
                 <MapPinIcon size={14} color="var(--brand-primary)" />
-                <span>Neopolis-Kokapet, Hyderabad</span>
+                <span style={{ fontSize: "14px" }}>Neopolis-Kokapet, Hyderabad</span>
               </span>
               <a
                 href="tel:+918897969521"
-                style={{ color: "var(--text-light-primary)", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                style={{ color: "var(--text-light-primary)", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "14px" }}
               >
                 <PhoneIcon size={14} color="var(--brand-primary)" />
-                <span>+91 88979 69521</span>
+                <span style={{ fontSize: "14px" }}>+91 88979 69521</span>
               </a>
             </div>
           </div>
@@ -227,26 +227,6 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
               </div>
             </div>
 
-            {/* In-Header Breadcrumb Bar (Matching Reference Screenshot) */}
-            {breadcrumbs.length > 0 && (
-              <div className="header-breadcrumb-row">
-                <div className="header-breadcrumb-links">
-                  {breadcrumbs.map((item, idx) => (
-                    <React.Fragment key={idx}>
-                      {idx > 0 && <span className="header-breadcrumb-sep">/</span>}
-                      {item.href ? (
-                        <Link href={item.href} className="header-breadcrumb-link">
-                          {item.label}
-                        </Link>
-                      ) : (
-                        <span className="header-breadcrumb-current">{item.label}</span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Mobile Menu Dropdown (Dark Frosted Glass) */}
             {mobileMenuOpen && (
               <div style={{
@@ -296,6 +276,28 @@ export default function Header({ onOpenConsultation }: HeaderProps) {
           </div>
         </header>
       </div>
+
+      {/* Separate Non-Sticky Breadcrumbs Bar (Outside Header Wrapper) */}
+      {breadcrumbs.length > 0 && (
+        <div className="header-breadcrumb-standalone-bar">
+          <div className="container">
+            <div className="header-breadcrumb-links">
+              {breadcrumbs.map((crumb, idx) => (
+                <React.Fragment key={idx}>
+                  {idx > 0 && <span className="header-breadcrumb-sep">/</span>}
+                  {crumb.href ? (
+                    <Link href={crumb.href} className="header-breadcrumb-link">
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="header-breadcrumb-current">{crumb.label}</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <ConsultationModal
         isOpen={internalModalOpen}

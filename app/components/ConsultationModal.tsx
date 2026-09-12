@@ -1,14 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import {
   XCloseIcon,
   CheckCircleIcon,
   LockIcon,
-  ArrowRightIcon,
-  SparklesIcon,
-  WhatsAppIcon
 } from "./Icons";
+import ChoiceChips, { ChoiceOption } from "./ui/ChoiceChips";
+import { submitLeadToGoogleSheet, openWhatsAppLeadChat } from "../lib/leadSubmission";
+
+const PROPERTY_TYPES: ChoiceOption[] = [
+  { value: "Magna Solitaire Apartment", label: "Magna Solitaire" },
+  { value: "2 BHK Apartment", label: "2 BHK" },
+  { value: "3 BHK Apartment", label: "3 BHK" },
+  { value: "4 BHK / Duplex", label: "4 BHK / Duplex" },
+  { value: "Luxury Villa", label: "Villa / Penthouse" },
+];
+
+const SCOPE_TYPES: ChoiceOption[] = [
+  { value: "Complete Home Interior", label: "Complete Home" },
+  { value: "Modular Kitchen & Wardrobes", label: "Kitchen & Wardrobes" },
+  { value: "Living & Dining", label: "Living & Dining" },
+  { value: "Custom Woodwork", label: "Custom Woodwork" },
+];
+
+const BUDGET_TYPES: ChoiceOption[] = [
+  { value: "₹8 Lakhs - ₹15 Lakhs", label: "₹8L - ₹15L" },
+  { value: "₹15 Lakhs - ₹25 Lakhs", label: "₹15L - ₹25L" },
+  { value: "₹25 Lakhs - ₹40 Lakhs", label: "₹25L - ₹40L" },
+  { value: "₹40 Lakhs+ Luxury", label: "₹40L+ Luxury" },
+];
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -16,46 +38,91 @@ interface ConsultationModalProps {
 }
 
 export default function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    propertyType: "3 BHK Apartment",
-    location: "Hyderabad",
-    scope: "Complete Home Interior",
-    budget: "₹15 Lakhs - ₹25 Lakhs",
+    propertyType: "",
+    location: "Magna Solitaire, Hyderabad",
+    scope: "",
+    budget: "",
+    timeToStart: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!mounted || !isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    const cleanPhone = formData.phone.trim();
+    const formattedPhone = cleanPhone.startsWith("+91") ? cleanPhone : `+91 ${cleanPhone}`;
+
+    const leadPayload = {
+      name: formData.name || "Client",
+      phone: formattedPhone,
+      email: formData.email,
+      propertyType: formData.propertyType,
+      location: formData.location || "Hyderabad",
+      scope: formData.scope,
+      budget: formData.budget,
+      timeToStart: formData.timeToStart,
+      source: "Book Consultation Modal",
+    };
+
+    await submitLeadToGoogleSheet(leadPayload);
+
+    setIsSubmitting(false);
     setSubmitted(true);
-    const text = encodeURIComponent(
-      `Hello Casa Art Interiors, I would like to book a free consultation.\n\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email}\n*Property:* ${formData.propertyType}\n*Location:* ${formData.location}\n*Scope:* ${formData.scope}\n*Budget Range:* ${formData.budget}`
-    );
+
     setTimeout(() => {
-      window.open(`https://wa.me/918897969521?text=${text}`, "_blank");
-    }, 1000);
+      openWhatsAppLeadChat(leadPayload);
+    }, 800);
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
-      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-box"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="modal-close-btn" onClick={onClose} aria-label="Close Modal">
           <XCloseIcon size={20} color="#FFFFFF" />
         </button>
 
         {submitted ? (
-          <div style={{ textAlign: "center", padding: "32px 16px" }}>
-            <div className="featured-icon featured-icon-brand" style={{ width: "56px", height: "56px", margin: "0 auto 20px" }}>
-              <CheckCircleIcon size={28} color="var(--brand-primary)" />
+          <div className="form-success-state">
+            <div className="form-success-icon featured-icon featured-icon-brand">
+              <CheckCircleIcon size={28} color="var(--brand-primary, #ff6364)" />
             </div>
-            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "var(--fs-24)", fontWeight: "700", lineHeight: "1.25" }}>
+            <h3 className="modal-title">
               Consultation Request Received!
             </h3>
-            <p className="text-md" style={{ marginBottom: "24px", color: "rgba(255, 255, 255, 0.7)" }}>
+            <p className="modal-body-text">
               Our senior interior architect will connect with you within 2 business hours. Opening WhatsApp chat for priority booking...
             </p>
             <button className="btn btn-primary btn-md" onClick={onClose}>
@@ -64,115 +131,107 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
           </div>
         ) : (
           <div>
-            <div className="section-eyebrow" style={{ marginBottom: "12px", color: "var(--brand-primary)" }}>
-              Free 3D Plan & Site Visit
+            <div className="section-eyebrow">
+              Free 3D Session
             </div>
-            <h3 className="modal-title" style={{ marginBottom: "14px", color: "#FFFFFF", fontSize: "var(--fs-24)", fontWeight: "700", lineHeight: "1.25" }}>
-              Book an Interior Consultation
+
+            <h3 className="modal-title">
+              Book Your Free Design Consultation
             </h3>
-            <p className="text-sm" style={{ marginBottom: "24px", color: "rgba(255, 255, 255, 0.7)" }}>
-              Discuss your floor plan with our design team and get an exact factory-direct estimate.
+
+            <p className="modal-body-text">
+              Share your project vision below to lock in a complimentary 3D layout review &amp; factory pricing breakdown.
             </p>
 
             <form onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Rahul Sharma"
-                    className="form-input"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">WhatsApp Number *</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="e.g. 9876543210"
-                    className="form-input"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                </div>
+              <div className="form-group">
+                <label className="form-label">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Ananya Rao"
+                  className="form-input"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
               </div>
 
               <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label">Property Type</label>
-                  <select
-                    className="form-select"
-                    value={formData.propertyType}
-                    onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-                  >
-                    <option value="Magna Solitaire Apartment">Magna Solitaire Apartment</option>
-                    <option value="2 BHK Apartment">2 BHK Apartment</option>
-                    <option value="3 BHK Apartment">3 BHK Apartment</option>
-                    <option value="4 BHK / Duplex">4 BHK / Duplex</option>
-                    <option value="Luxury Villa">Luxury Villa / Penthouse</option>
-                    <option value="Commercial Office">Commercial / Studio</option>
-                  </select>
+                  <label className="form-label">
+                    WhatsApp Number *
+                  </label>
+                  <div className="phone-input-group">
+                    <span className="phone-prefix">+91</span>
+                    <span className="phone-separator" />
+                    <input
+                      type="tel"
+                      required
+                      placeholder="98765 43210"
+                      className="phone-input"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    />
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Project Scope</label>
-                  <select
-                    className="form-select"
-                    value={formData.scope}
-                    onChange={(e) => setFormData({ ...formData, scope: e.target.value })}
-                  >
-                    <option value="Complete Home Interior">Complete Home Interior</option>
-                    <option value="Modular Kitchen & Wardrobes">Modular Kitchen & Wardrobes</option>
-                    <option value="Living & Dining Renovation">Living & Dining Renovation</option>
-                    <option value="Custom Luxury Woodwork">Custom Luxury Woodwork</option>
-                  </select>
-                </div>
-              </div>
 
-              <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label">Estimated Budget</label>
-                  <select
-                    className="form-select"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  >
-                    <option value="₹8 Lakhs - ₹15 Lakhs">₹8 Lakhs - ₹15 Lakhs</option>
-                    <option value="₹15 Lakhs - ₹25 Lakhs">₹15 Lakhs - ₹25 Lakhs</option>
-                    <option value="₹25 Lakhs - ₹40 Lakhs">₹25 Lakhs - ₹40 Lakhs</option>
-                    <option value="₹40 Lakhs+ Luxury">₹40 Lakhs+ Luxury</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Site / Community Location</label>
+                  <label className="form-label">
+                    Email Address
+                  </label>
                   <input
-                    type="text"
-                    placeholder="e.g. Kokapet / Financial District"
+                    type="email"
+                    placeholder="e.g. ananya@gmail.com"
                     className="form-input"
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   />
                 </div>
               </div>
+
+              <ChoiceChips
+                label="Property Type"
+                options={PROPERTY_TYPES}
+                selectedValue={formData.propertyType}
+                onChange={(val) => setFormData({ ...formData, propertyType: val })}
+                variant="dark"
+              />
+
+              <ChoiceChips
+                label="Design Scope"
+                options={SCOPE_TYPES}
+                selectedValue={formData.scope}
+                onChange={(val) => setFormData({ ...formData, scope: val })}
+                variant="dark"
+              />
+
+              <ChoiceChips
+                label="Planned Investment / Budget"
+                options={BUDGET_TYPES}
+                selectedValue={formData.budget}
+                onChange={(val) => setFormData({ ...formData, budget: val })}
+                variant="dark"
+              />
 
               <button
                 type="submit"
-                className="btn btn-primary btn-lg"
-                style={{ width: "100%", marginTop: "8px" }}
+                disabled={isSubmitting}
+                className="btn btn-primary btn-lg w-full"
+                style={{ width: "100%" }}
               >
-                <span>Confirm Consultation Booking</span>
+                <span>{isSubmitting ? "Submitting..." : "Book Consultation"}</span>
               </button>
 
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "12px", fontSize: "var(--fs-14)", color: "var(--text-dark-muted)" }}>
-                <LockIcon size={14} color="var(--brand-primary)" />
-                <span>Zero spam. Free 3D plan & site assessment included.</span>
+              <div className="modal-privacy-note">
+                <LockIcon size={14} color="var(--brand-primary, #ff6364)" />
+                <span>Zero spam. Free 3D plan &amp; site assessment included.</span>
               </div>
             </form>
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
